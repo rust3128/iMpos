@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "LoggingCategories/loggingcategories.h"
+#include "DataBases/databases.h"
 #include <QApplication>
 #include <QFile>
 #include <QDateTime>
@@ -21,6 +22,12 @@ int main(int argc, char *argv[])
     // Устанавливаем обработчик
     qInstallMessageHandler(messageHandler);
     qInfo(logInfo()) << "Запуск программы.";
+
+    DataBases *db = new DataBases();
+    if(!db->connectOptions()){
+        qInfo(logInfo()) << "Аварийное завершение работы.";
+        return 1;
+    }
 
 
     MainWindow w;

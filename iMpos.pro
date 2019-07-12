@@ -25,11 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        DataBases/databases.cpp \
         LoggingCategories/loggingcategories.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        DataBases/databases.h \
         LoggingCategories/loggingcategories.h \
         mainwindow.h
 
