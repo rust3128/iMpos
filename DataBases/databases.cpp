@@ -1,12 +1,11 @@
 #include "databases.h"
 #include "LoggingCategories/loggingcategories.h"
+#include "databasesettings.h"
 
 #include <QFile>
 #include <QSqlQuery>
 #include <QSqlError>
 
-#define DATABASE_NAME "iMpos.opt"
-#define DATABASE_HOSTNAME "iMpos"
 
 DataBases::DataBases(QObject *parent) : QObject(parent)
 {
@@ -18,13 +17,13 @@ bool DataBases::connectOptions()
     bool result;
 
     //Проверяемналичие файла базы данных
-    if(QFile(DATABASE_NAME).exists()){
+    if(QFile(DataBaseSettings::NAME).exists()){
         //Файл существует создаем подключение к базе данных
         qInfo(logInfo()) << "Открываем файл настроек приложения.";
 
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","options");
-        db.setHostName(DATABASE_HOSTNAME);
-        db.setDatabaseName(DATABASE_NAME);
+        db.setHostName(DataBaseSettings::HOSTNAME);
+        db.setDatabaseName(DataBaseSettings::NAME);
         if(db.open()){
             qInfo(logInfo()) << "Файл настроек открыт успешно";
             result = true;
@@ -35,8 +34,8 @@ bool DataBases::connectOptions()
     } else {
         //Файл отсутсвует, создем базу данных
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","options");
-        db.setHostName(DATABASE_HOSTNAME);
-        db.setDatabaseName(DATABASE_NAME);
+        db.setHostName(DataBaseSettings::HOSTNAME);
+        db.setDatabaseName(DataBaseSettings::NAME);
         if(db.open()){
             QStringList listSQL;  //Список запросов
             QSqlQuery q = QSqlQuery(db);

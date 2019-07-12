@@ -26,12 +26,14 @@ CONFIG += c++11
 
 SOURCES += \
         DataBases/databases.cpp \
+        DataBases/databasesettings.cpp \
         LoggingCategories/loggingcategories.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
         DataBases/databases.h \
+        DataBases/databasesettings.h \
         LoggingCategories/loggingcategories.h \
         mainwindow.h
 
