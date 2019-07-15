@@ -43,9 +43,18 @@ bool DataBases::connectOptions()
             listSQL << "CREATE TABLE `options` (`option_id`	INTEGER NOT NULL, `value` TEXT NOT NULL, `comment` TEXT, PRIMARY KEY(`option_id`))";
             listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1000, 'false', 'Использовать аутентификацию')";
             listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1010, 'false', 'Использовать привязку по региону')";
+            listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1020, '1', 'Текущий пользователь')";
             //Создаем таблицу пользователей приложения и добавляем в нее запись
             listSQL << "CREATE TABLE `users` ( `user_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fio` TEXT NOT NULL, `password` TEXT, `isactive` TEXT NOT NULL DEFAULT 'true' )";
             listSQL << "INSERT INTO `users`(`fio`,`password`) VALUES ('Администратор','masterkey')";
+            //создаем таблицу подключений к центральной базе
+            listSQL << "CREATE TABLE `connections` ( "
+                       "`conn_id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+                       "`connname`	TEXT NOT NULL, "
+                       "`host`	TEXT NOT NULL, "
+                       "`database`	TEXT NOT NULL, "
+                       "`user`	TEXT NOT NULL DEFAULT 'SYSDBA', "
+                       "`pass`	TEXT NOT NULL)";
 
             //Выполняем запросы
             for (int i =0;i<listSQL.size();++i) {
@@ -62,4 +71,16 @@ bool DataBases::connectOptions()
     }
 
     return result;
+}
+
+bool DataBases::connectCenralDB()
+{
+    bool rezult;
+
+    QSqlDatabase dboptions = QSqlDatabase::database("options");
+
+
+
+
+    return rezult;
 }

@@ -25,22 +25,36 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        DataBases/connectiondialog.cpp \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
+        DataBases/editconndialog.cpp \
+        DataBases/optionsdata.cpp \
         LoggingCategories/loggingcategories.cpp \
+        LoginDialog/logindialog.cpp \
         main.cpp \
         mainwindow.cpp
 
 HEADERS += \
+        DataBases/connectiondialog.h \
         DataBases/databases.h \
         DataBases/databasesettings.h \
+        DataBases/editconndialog.h \
+        DataBases/optionsdata.h \
         LoggingCategories/loggingcategories.h \
+        LoginDialog/logindialog.h \
         mainwindow.h
 
 FORMS += \
+        DataBases/connectiondialog.ui \
+        DataBases/editconndialog.ui \
+        LoginDialog/logindialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    resource.qrc
