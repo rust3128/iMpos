@@ -24,6 +24,8 @@ private slots:
     void slotEditConnection(QModelIndex idx);
     void on_pushButtonEdit_clicked();
 
+    void on_pushButtonConnect_clicked();
+
 private:
     void createUI();
     void setupModel(const QString &tablename, const QStringList &headers);              //Создание модели

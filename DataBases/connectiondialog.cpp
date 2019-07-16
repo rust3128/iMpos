@@ -1,6 +1,7 @@
 #include "connectiondialog.h"
 #include "ui_connectiondialog.h"
 #include "editconndialog.h"
+#include "optionsdata.h"
 
 ConnectionDialog::ConnectionDialog(QWidget *parent) :
     QDialog(parent),
@@ -76,4 +77,14 @@ void ConnectionDialog::slotEditConnection(QModelIndex idx)
 void ConnectionDialog::on_pushButtonEdit_clicked()
 {
     slotEditConnection(ui->tableViewConnections->currentIndex());
+}
+
+void ConnectionDialog::on_pushButtonConnect_clicked()
+{
+    QModelIndex idx = ui->tableViewConnections->currentIndex();
+    if(idx.isValid()){
+        OptionsData opt;
+        opt.setOptions(1030, modelConnect->data(modelConnect->index(idx.row(),0)).toString());
+    }
+
 }

@@ -7,6 +7,8 @@
 #include <QFile>
 #include <QDateTime>
 #include <QMessageBox>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 // Умный указатель на файл логирования
 static QScopedPointer<QFile>   m_logFile;
@@ -26,6 +28,16 @@ int main(int argc, char *argv[])
     qInstallMessageHandler(messageHandler);
     qInfo(logInfo()) << "Запуск программы.";
 
+#ifndef QT_NO_TRANSLATION
+    QString translatorFileName = QLatin1String("qt_");
+    translatorFileName += QLocale::system().name();
+    QTranslator *translator = new QTranslator(&a);
+    if (translator->load(translatorFileName, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+        a.installTranslator(translator);
+    else
+        qWarning(logWarning()) << "Не удалось загрузить языковый файл.";
+#endif
+
     DataBases *db = new DataBases();
     if(!db->connectOptions()){
         qInfo(logInfo()) << "Аварийное завершение работы.";
@@ -42,6 +54,10 @@ int main(int argc, char *argv[])
             qCritical(logCritical()) << "Не выполнен вход в систему. Закрытие программы.";
             return 1;
         }
+    }
+    if(!db->connectCenralDB()){
+        qInfo(logInfo()) << "Не возможно подключится к центральной базе"  << "Аварийное завершение работы.";
+        return 1;
     }
 
 

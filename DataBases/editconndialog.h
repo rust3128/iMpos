@@ -15,7 +15,7 @@ class EditConnDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit EditConnDialog(int row = -1, QWidget *parent = 0);
+    explicit EditConnDialog(int row = -1, QWidget *parent = nullptr);
     ~EditConnDialog();
 
 signals:

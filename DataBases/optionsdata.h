@@ -10,6 +10,7 @@ class OptionsData : public QObject
 public:
     explicit OptionsData(QObject *parent = nullptr);
     QVariant getOption(int optionID);
+    void setOptions(int optionID, QString value);
 signals:
 
 public slots:

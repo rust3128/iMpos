@@ -14,7 +14,7 @@
    <string>Справочник подключений</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../resource.qrc">
+   <iconset>
     <normaloff>:/Icons/logo.png</normaloff>:/Icons/logo.png</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -37,12 +37,19 @@
    <item row="0" column="1">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QPushButton" name="pushButtonConnect">
+       <property name="text">
+        <string>Подключится</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="pushButtonNew">
        <property name="text">
         <string>Новый</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset>
          <normaloff>:/Icons/add.png</normaloff>:/Icons/add.png</iconset>
        </property>
       </widget>
@@ -53,7 +60,7 @@
         <string>Правка</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset>
          <normaloff>:/Icons/edit.png</normaloff>:/Icons/edit.png</iconset>
        </property>
       </widget>
@@ -77,7 +84,7 @@
         <string>Закрыть</string>
        </property>
        <property name="icon">
-        <iconset resource="../resource.qrc">
+        <iconset>
          <normaloff>:/Icons/application-exit.png</normaloff>:/Icons/application-exit.png</iconset>
        </property>
       </widget>
@@ -86,8 +93,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../resource.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
