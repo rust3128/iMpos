@@ -9,7 +9,7 @@ class DataBases : public QObject
 public:
     explicit DataBases(QObject *parent = nullptr);
     bool connectOptions(); //Подключение к базе данный опций приложения
-
+    bool connectCenralDB(); //Подлючение к центрально базе данных
 signals:
 
 public slots:
