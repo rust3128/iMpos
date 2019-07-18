@@ -28,6 +28,7 @@ SOURCES += \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
         LoggingCategories/loggingcategories.cpp \
+        logindialog.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -35,12 +36,16 @@ HEADERS += \
         DataBases/databases.h \
         DataBases/databasesettings.h \
         LoggingCategories/loggingcategories.h \
+        logindialog.h \
         mainwindow.h
 
 FORMS += \
+        logindialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
