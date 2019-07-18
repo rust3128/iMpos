@@ -4,6 +4,8 @@
 #include <QApplication>
 #include <QFile>
 #include <QDateTime>
+#include <QTranslator>
+#include <QLibraryInfo>
 
 // Умный указатель на файл логирования
 static QScopedPointer<QFile>   m_logFile;
@@ -22,6 +24,18 @@ int main(int argc, char *argv[])
     // Устанавливаем обработчик
     qInstallMessageHandler(messageHandler);
     qInfo(logInfo()) << "Запуск программы.";
+
+#ifndef QT_NO_TRANSLATION
+    //Определяем имя языкового файла в зависимости от текущей локали
+    QString translatorFileName = QLatin1String("qt_");
+    translatorFileName += QLocale::system().name();
+    //Создаем и пытаемся загрузить
+    QTranslator *translator = new QTranslator(&a);
+    if (translator->load(translatorFileName, QLibraryInfo::location(QLibraryInfo::TranslationsPath)))
+        a.installTranslator(translator);
+    else
+        qWarning(logWarning()) << "Не удалось загрузить языковый файл.";
+#endif
 
     DataBases *db = new DataBases();
     if(!db->connectOptions()){
