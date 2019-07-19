@@ -27,6 +27,7 @@ CONFIG += c++11
 SOURCES += \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
+        DataBases/options.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
         main.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 HEADERS += \
         DataBases/databases.h \
         DataBases/databasesettings.h \
+        DataBases/options.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
         mainwindow.h

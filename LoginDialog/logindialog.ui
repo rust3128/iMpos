@@ -68,12 +68,23 @@ color: rgb(0, 0, 255);</string>
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEdit"/>
+      <widget class="QLineEdit" name="lineEditPass">
+       <property name="echoMode">
+        <enum>QLineEdit::Password</enum>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="labelInfo">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Noto Sans&quot;;
+color: rgb(255, 0, 0);</string>
+       </property>
        <property name="text">
         <string>LabelInfo</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
