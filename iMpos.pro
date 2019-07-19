@@ -28,7 +28,7 @@ SOURCES += \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
         LoggingCategories/loggingcategories.cpp \
-        logindialog.cpp \
+        LoginDialog/logindialog.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -36,11 +36,11 @@ HEADERS += \
         DataBases/databases.h \
         DataBases/databasesettings.h \
         LoggingCategories/loggingcategories.h \
-        logindialog.h \
+        LoginDialog/logindialog.h \
         mainwindow.h
 
 FORMS += \
-        logindialog.ui \
+        LoginDialog/logindialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
@@ -49,3 +49,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 DISTFILES +=
+
+RESOURCES += \
+    resource.qrc
