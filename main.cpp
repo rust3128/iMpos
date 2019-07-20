@@ -61,6 +61,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    if(!db->connectCenralDB()){
+        qInfo(logInfo()) << "Завершение работы. Не удалось подключится к центральной базе.";
+        return 1;
+    }
 
     MainWindow w;
     w.show();

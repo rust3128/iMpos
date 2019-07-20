@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        ConnectionSettingDialog/connectionsettingdialog.cpp \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
         DataBases/options.cpp \
@@ -34,6 +35,7 @@ SOURCES += \
         mainwindow.cpp
 
 HEADERS += \
+        ConnectionSettingDialog/connectionsettingdialog.h \
         DataBases/databases.h \
         DataBases/databasesettings.h \
         DataBases/options.h \
@@ -42,6 +44,7 @@ HEADERS += \
         mainwindow.h
 
 FORMS += \
+        ConnectionSettingDialog/connectionsettingdialog.ui \
         LoginDialog/logindialog.ui \
         mainwindow.ui
 
