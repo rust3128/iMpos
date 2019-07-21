@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>Image/users.png</file>
         <file>Image/settings.png</file>
+        <file>Image/iconfinder_users-add_44502.png</file>
+        <file>Image/users32.png</file>
+        <file>Image/usersdelete.png</file>
+        <file>Image/usersedit.png</file>
     </qresource>
 </RCC>

@@ -28,6 +28,7 @@
      <string>Инструменты</string>
     </property>
     <addaction name="actionSettings"/>
+    <addaction name="actionUsers"/>
    </widget>
    <addaction name="menuTools"/>
   </widget>
@@ -55,6 +56,11 @@
    </property>
    <property name="shortcut">
     <string>Alt+Shift+T</string>
+   </property>
+  </action>
+  <action name="actionUsers">
+   <property name="text">
+    <string>Пользователи...</string>
    </property>
   </action>
  </widget>

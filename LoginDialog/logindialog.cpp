@@ -40,6 +40,7 @@ void LoginDialog::createModel()
 
     modelUsers->setTable("users");
     modelUsers->select();
+    modelUsers->setFilter("isactive='true'");
 
 }
 
