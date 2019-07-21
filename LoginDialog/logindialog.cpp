@@ -1,6 +1,7 @@
 #include "logindialog.h"
 #include "ui_logindialog.h"
 #include "LoggingCategories/loggingcategories.h"
+#include "DataBases/options.h"
 
 LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent),
@@ -61,6 +62,9 @@ void LoginDialog::on_buttonBox_accepted()
     if(ui->comboBoxUser->currentIndex()>=0) {
         if(userPass==ui->lineEditPass->text().trimmed()) {
             qInfo(logInfo()) << QString("Пользователь: %1. Успешный вход в систему.").arg(ui->comboBoxUser->currentText());
+            //Запись в таблицу options ID пользователя
+            Options opt;
+            opt.setOption(1020,QString::number(userID));
             this->accept();
         } else {
             ui->labelInfo->setText("Не верный пароль!");

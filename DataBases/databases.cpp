@@ -46,6 +46,12 @@ bool DataBases::connectOptions()
             listSQL << "CREATE TABLE `options` (`option_id`	INTEGER NOT NULL, `value` TEXT NOT NULL, `comment` TEXT, PRIMARY KEY(`option_id`))";
             listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1000, 'false', 'Использовать аутентификацию')";
             listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1010, 'false', 'Использовать привязку по региону')";
+            listSQL << "INSERT INTO `options`(`option_id`,`value`,`comment`) VALUES (1020, '1', 'Текущий пользователь системы')";
+            listSQL << "CREATE TRIGGER use_login AFTER UPDATE "
+                       "ON options WHEN (SELECT value FROM options WHERE option_id =1000) = 'false' OR (SELECT value FROM options WHERE option_id =1000) = 0  "
+                       "BEGIN "
+                       "UPDATE options SET value = 1 WHERE option_id= 1020; "
+                       "END";
             //Создаем таблицу пользователей приложения и добавляем в нее запись
             listSQL << "CREATE TABLE `users` ( `user_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fio` TEXT NOT NULL, `password` TEXT, `isactive` TEXT NOT NULL DEFAULT 'true' )";
             listSQL << "INSERT INTO `users`(`fio`,`password`) VALUES ('Администратор','masterkey')";

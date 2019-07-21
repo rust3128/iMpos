@@ -31,6 +31,7 @@ SOURCES += \
         DataBases/options.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
+        SettingsDialog/settingsdialog.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -41,11 +42,13 @@ HEADERS += \
         DataBases/options.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
+        SettingsDialog/settingsdialog.h \
         mainwindow.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
         LoginDialog/logindialog.ui \
+        SettingsDialog/settingsdialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.
