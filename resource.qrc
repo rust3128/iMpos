@@ -6,5 +6,8 @@
         <file>Image/users32.png</file>
         <file>Image/usersdelete.png</file>
         <file>Image/usersedit.png</file>
+        <file>Image/userActive.png</file>
+        <file>Image/exit.png</file>
+        <file>Image/userNoActive.png</file>
     </qresource>
 </RCC>

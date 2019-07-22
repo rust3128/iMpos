@@ -32,6 +32,7 @@ SOURCES += \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
         SettingsDialog/settingsdialog.cpp \
+        UsersDialog/usersdialog.cpp \
         main.cpp \
         mainwindow.cpp
 
@@ -43,12 +44,14 @@ HEADERS += \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
         SettingsDialog/settingsdialog.h \
+        UsersDialog/usersdialog.h \
         mainwindow.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
         LoginDialog/logindialog.ui \
         SettingsDialog/settingsdialog.ui \
+        UsersDialog/usersdialog.ui \
         mainwindow.ui
 
 # Default rules for deployment.

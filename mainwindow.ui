@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>624</width>
-    <height>485</height>
+    <width>702</width>
+    <height>637</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>624</width>
-     <height>21</height>
+     <width>702</width>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuTools">
@@ -40,6 +40,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionSettings"/>
+   <addaction name="actionUsers"/>
   </widget>
   <widget class="QStatusBar" name="statusBar">
    <property name="sizeGripEnabled">
@@ -59,8 +60,15 @@
    </property>
   </action>
   <action name="actionUsers">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/Image/users32.png</normaloff>:/Image/users32.png</iconset>
+   </property>
    <property name="text">
     <string>Пользователи...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+U</string>
    </property>
   </action>
  </widget>

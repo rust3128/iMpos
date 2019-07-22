@@ -18,6 +18,8 @@ public:
 private slots:
     void on_actionSettings_triggered();
 
+    void on_actionUsers_triggered();
+
 private:
     void createUI();
 private:
