@@ -37,7 +37,7 @@ void UsersDialog::createTable()
     ui->tableWidget->setHorizontalHeaderLabels(QStringList()<<"ID"<<"Логин"<<"Пароль"<<""<<"Активность");
     QSqlQuery q = QSqlQuery(db);
     //Получаем список пользователей
-    if(!q.exec("select user_id, fio, password, isactive FROM users WHERE user_id > 1 order by user_id"))
+    if(!q.exec("select user_id, fio, password, isactive FROM users order by user_id"))
         qCritical(logCritical())<< "Не возможно получить список пользователей" << q.lastError().text();
     int i = 0;              //Текущая строка
     //Создаем и заполняем таблицу пользователей

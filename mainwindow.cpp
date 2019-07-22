@@ -34,7 +34,7 @@ void MainWindow::createUI()
            "WHERE o.option_id = 1020");
     q.next();
     labelUsers->setText("Пользователь: "+q.value(1).toString());
-    if(q.value(0).toInt()>1){
+    if(q.value(0).toInt() != 1){
         ui->actionUsers->setEnabled(false);
         ui->actionSettings->setEnabled(false);
     }
