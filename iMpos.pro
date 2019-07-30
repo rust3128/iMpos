@@ -29,6 +29,8 @@ SOURCES += \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
         DataBases/options.cpp \
+        FuelNameDialog/addterminaldialog.cpp \
+        FuelNameDialog/fuelnamedialog.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
         SettingsDialog/settingsdialog.cpp \
@@ -41,6 +43,8 @@ HEADERS += \
         DataBases/databases.h \
         DataBases/databasesettings.h \
         DataBases/options.h \
+        FuelNameDialog/addterminaldialog.h \
+        FuelNameDialog/fuelnamedialog.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
         SettingsDialog/settingsdialog.h \
@@ -49,6 +53,8 @@ HEADERS += \
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
+        FuelNameDialog/addterminaldialog.ui \
+        FuelNameDialog/fuelnamedialog.ui \
         LoginDialog/logindialog.ui \
         SettingsDialog/settingsdialog.ui \
         UsersDialog/usersdialog.ui \

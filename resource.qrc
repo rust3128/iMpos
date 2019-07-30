@@ -9,5 +9,23 @@
         <file>Image/userActive.png</file>
         <file>Image/exit.png</file>
         <file>Image/userNoActive.png</file>
+        <file>Image/all_check.png</file>
+        <file>Image/removeAll.png</file>
+        <file>Image/selectTerminal.png</file>
+        <file>Image/selectRegion.png</file>
+        <file>Image/selectAllRegion.png</file>
+        <file>Image/deleteSelected.png</file>
+        <file>Image/fuel.png</file>
+        <file>Image/generateSQL.png</file>
+        <file>Image/excel.png</file>
+        <file>Image/report.png</file>
+        <file>Image/checked.png</file>
+        <file>Image/unchecked.png</file>
+        <file>Image/winter.png</file>
+        <file>Image/summer.png</file>
+        <file>Image/edit.png</file>
+        <file>Image/reports.png</file>
+        <file>Image/fuellogo.png</file>
+        <file>Image/azs.png</file>
     </qresource>
 </RCC>

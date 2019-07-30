@@ -3,10 +3,12 @@
 #include "DataBases/databasesettings.h"
 #include "SettingsDialog/settingsdialog.h"
 #include "UsersDialog/usersdialog.h"
+#include "FuelNameDialog/fuelnamedialog.h"
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QLabel>
 #include <QSettings>
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -66,4 +68,14 @@ void MainWindow::on_actionUsers_triggered()
     usersDlg->move(this->geometry().center().x() - usersDlg->geometry().center().x(),
                    this->geometry().center().y() - usersDlg->geometry().center().y());
     usersDlg->exec();
+}
+
+void MainWindow::on_actionFuelName_triggered()
+{
+    FuelNameDialog *fuelDlg = new FuelNameDialog();
+
+
+    this->setCentralWidget(fuelDlg);
+    this->setWindowTitle(this->windowTitle()+" - "+fuelDlg->windowTitle());
+    fuelDlg->exec();
 }

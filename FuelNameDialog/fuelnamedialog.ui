@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FuelNameDialog</class>
+ <widget class="QDialog" name="FuelNameDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>823</width>
+    <height>655</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Наименования видов топлива</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_7" columnstretch="0,1">
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBoxFuel">
+     <property name="styleSheet">
+      <string notr="true">QGroupBox
+                {
+                   border:2px solid #5858FA;
+                   border-radius: 6px;
+                   padding-top: 1px;
+                   padding-left: 14px;
+                   padding-right: 10px;
+                   padding-bottom: 0px;
+                   font-weight: bold;
+                   font-size: 15px;
+                   margin-top: 15px; 
+                }
+                QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                left: 20px;
+                padding: 0 10px;
+                }</string>
+     </property>
+     <property name="title">
+      <string>Терминалы</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0" colspan="3">
+       <widget class="QTableWidget" name="tableWidget"/>
+      </item>
+      <item row="0" column="2">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="1">
+       <widget class="QPushButton" name="pushButtonDeSelectAll">
+        <property name="text">
+         <string>Убрать все</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resource.qrc">
+          <normaloff>:/Image/removeAll.png</normaloff>:/Image/removeAll.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QPushButton" name="pushButtonSelectAll">
+        <property name="text">
+         <string>Выделить все</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../resource.qrc">
+          <normaloff>:/Image/all_check.png</normaloff>:/Image/all_check.png</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="3">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QToolButton" name="toolButtonSelectTerminal">
+          <property name="toolTip">
+           <string>Добавить терминал</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource.qrc">
+            <normaloff>:/Image/selectTerminal.png</normaloff>:/Image/selectTerminal.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonSelectTermRegions">
+          <property name="toolTip">
+           <string>Добавить терминалы региона</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource.qrc">
+            <normaloff>:/Image/selectRegion.png</normaloff>:/Image/selectRegion.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButtonSelectRegion">
+          <property name="toolTip">
+           <string>Добавить регион</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource.qrc">
+            <normaloff>:/Image/selectAllRegion.png</normaloff>:/Image/selectAllRegion.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButtonDeleteSelected">
+          <property name="text">
+           <string>Удалить выбранные</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../resource.qrc">
+            <normaloff>:/Image/deleteSelected.png</normaloff>:/Image/deleteSelected.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBoxActions">
+     <property name="styleSheet">
+      <string notr="true">QGroupBox
+                {
+                   border:2px solid #04B404;
+                   border-radius: 6px;
+                   padding-top: 1px;
+                   padding-left: 14px;
+                   padding-right: 10px;
+                   padding-bottom: 0px;
+                   font-weight: bold;
+                   font-size: 15px;
+                   margin-top: 15px; 
+                }
+                QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                left: 20px;
+                padding: 0 10px;
+                }</string>
+     </property>
+     <property name="title">
+      <string>Действия</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="0">
+       <widget class="QDialogButtonBox" name="buttonBox">
+        <property name="standardButtons">
+         <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Reset</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QTabWidget" name="tabWidgetView">
+        <property name="currentIndex">
+         <number>1</number>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="documentMode">
+         <bool>true</bool>
+        </property>
+        <property name="tabBarAutoHide">
+         <bool>false</bool>
+        </property>
+        <widget class="QWidget" name="tabView">
+         <attribute name="icon">
+          <iconset resource="../resource.qrc">
+           <normaloff>:/Image/reports.png</normaloff>:/Image/reports.png</iconset>
+         </attribute>
+         <attribute name="title">
+          <string>Просмотр </string>
+         </attribute>
+         <attribute name="toolTip">
+          <string>Отчет оп наименования на АЗС</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_8">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="radioButton">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QRadioButton::indicator::unchecked
+{
+	image: url(:/Image/unchecked.png);
+}
+QRadioButton::indicator::checked
+{
+	image: url(:/Image/checked.png);
+}</string>
+            </property>
+            <property name="text">
+             <string>Показать отчет</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../resource.qrc">
+              <normaloff>:/Image/report.png</normaloff>:/Image/report.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="radioButton_2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QRadioButton::indicator::unchecked
+{
+	image: url(:/Image/unchecked.png);
+}
+QRadioButton::indicator::checked
+{
+	image: url(:/Image/checked.png);
+}</string>
+            </property>
+            <property name="text">
+             <string>Экспорт в Excel</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../resource.qrc">
+              <normaloff>:/Image/excel.png</normaloff>:/Image/excel.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="tabEdit">
+         <attribute name="icon">
+          <iconset resource="../resource.qrc">
+           <normaloff>:/Image/edit.png</normaloff>:/Image/edit.png</iconset>
+         </attribute>
+         <attribute name="title">
+          <string>Изменение </string>
+         </attribute>
+         <attribute name="toolTip">
+          <string>Изменение наименований</string>
+         </attribute>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QFrame" name="frame">
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Дата изменения:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QDateEdit" name="dateEdit">
+               <property name="calendarPopup">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="2">
+              <widget class="QGroupBox" name="groupBoxDT">
+               <property name="font">
+                <font>
+                 <pointsize>-1</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QGroupBox
+                {
+                   border:2px solid #2E2EFE;
+                   border-radius: 6px;
+                   padding-top: 1px;
+                   padding-left: 14px;
+                   padding-right: 10px;
+                   padding-bottom: 0px;
+                   font-weight: bold;
+                   font-size: 15px;
+                   margin-top: 15px; 
+                }
+                QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                left: 20px;
+                padding: 0 10px;
+                }</string>
+               </property>
+               <property name="title">
+                <string>Дизельное топливо</string>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_3">
+                <item row="0" column="0">
+                 <widget class="QCheckBox" name="checkBoxDTS">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ДП-Л-Евро5-В0</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resource.qrc">
+                    <normaloff>:/Image/summer.png</normaloff>:/Image/summer.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>32</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QCheckBox" name="checkBoxDTW">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>ДП-З-Евро5-В0</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resource.qrc">
+                    <normaloff>:/Image/winter.png</normaloff>:/Image/winter.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>32</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QGroupBox" name="groupBoxVIP">
+               <property name="font">
+                <font>
+                 <pointsize>-1</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QGroupBox
+                {
+                   border:2px solid #08088A;
+                   border-radius: 6px;
+                   padding-top: 1px;
+                   padding-left: 14px;
+                   padding-right: 10px;
+                   padding-bottom: 0px;
+                   font-weight: bold;
+                   font-size: 15px;
+                   margin-top: 15px; 
+                }
+                QGroupBox::title {
+                subcontrol-origin: margin;
+                subcontrol-position: top left;
+                left: 20px;
+                padding: 0 10px;
+                }</string>
+               </property>
+               <property name="title">
+                <string>VP Power ДТ</string>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
+               <property name="checkable">
+                <bool>true</bool>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_4">
+                <item row="0" column="0">
+                 <widget class="QCheckBox" name="checkBoxVIPS">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>VP ДП-Л-Евро5-В0</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resource.qrc">
+                    <normaloff>:/Image/summer.png</normaloff>:/Image/summer.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>32</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QCheckBox" name="checkBoxVIPW">
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>VP ДП-З-Евро5-В0</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resource.qrc">
+                    <normaloff>:/Image/winter.png</normaloff>:/Image/winter.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>32</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QPlainTextEdit" name="plainTextEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Создать скрипт</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../resource.qrc">
+              <normaloff>:/Image/generateSQL.png</normaloff>:/Image/generateSQL.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

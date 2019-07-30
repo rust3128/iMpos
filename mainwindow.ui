@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>702</width>
-    <height>637</height>
+    <width>887</width>
+    <height>782</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>702</width>
+     <width>887</width>
      <height>23</height>
     </rect>
    </property>
@@ -30,6 +30,13 @@
     <addaction name="actionSettings"/>
     <addaction name="actionUsers"/>
    </widget>
+   <widget class="QMenu" name="menuUtils">
+    <property name="title">
+     <string>Утилиты</string>
+    </property>
+    <addaction name="actionFuelName"/>
+   </widget>
+   <addaction name="menuUtils"/>
    <addaction name="menuTools"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -39,6 +46,8 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="actionFuelName"/>
+   <addaction name="separator"/>
    <addaction name="actionSettings"/>
    <addaction name="actionUsers"/>
   </widget>
@@ -69,6 +78,15 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+U</string>
+   </property>
+  </action>
+  <action name="actionFuelName">
+   <property name="icon">
+    <iconset resource="resource.qrc">
+     <normaloff>:/Image/fuel.png</normaloff>:/Image/fuel.png</iconset>
+   </property>
+   <property name="text">
+    <string>Наименования топлива</string>
    </property>
   </action>
  </widget>

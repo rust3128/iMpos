@@ -20,6 +20,8 @@ private slots:
 
     void on_actionUsers_triggered();
 
+    void on_actionFuelName_triggered();
+
 private:
     void createUI();
 private:
