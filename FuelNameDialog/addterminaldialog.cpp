@@ -3,6 +3,7 @@
 #include "LoggingCategories/loggingcategories.h"
 #include "DataBases/options.h"
 #include <QKeyEvent>
+#include <QPushButton>
 
 AddTerminalDialog::AddTerminalDialog(QWidget *parent) :
     QDialog(parent),
@@ -47,17 +48,26 @@ void AddTerminalDialog::createModels()
 
 void AddTerminalDialog::createUI()
 {
+     ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(false);
+     ui->buttonBox->button(QDialogButtonBox::Cancel)->setDefault(false);
+    ui->buttonBox->setFocusProxy(ui->tableViewTerminals);
     ui->tableViewTerminals->setModel(proxyModel);
     ui->tableViewTerminals->verticalHeader()->hide();
     ui->tableViewTerminals->hideColumn(2);
     ui->tableViewTerminals->verticalHeader()->setDefaultSectionSize(ui->tableViewTerminals->verticalHeader()->minimumSectionSize());
     ui->tableViewTerminals->resizeColumnsToContents();
 
+
     // Выделяем нужную строку
+
     ui->tableViewTerminals->selectRow(0);
+
     // Имитируем нажатие кнопки Tab, чтобы выделить строку
     QKeyEvent* pe = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab,Qt::NoModifier, "Tab");
     QApplication::sendEvent(this, pe) ;
+//    QApplication::sendEvent(this, pe) ;
+//    QApplication::sendEvent(this, pe) ;
+
 
 
     ui->comboBoxRegions->setModel(modelRegions);
@@ -75,7 +85,9 @@ void AddTerminalDialog::on_comboBoxRegions_activated(int idx)
     ui->tableViewTerminals->selectRow(0);
 
     QKeyEvent* pe = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab,Qt::NoModifier, "Tab");
-    QApplication::sendEvent(this, pe);
+    QApplication::sendEvent(ui->tableViewTerminals, pe);
+//    QApplication::sendEvent(this, pe);
+//    QApplication::sendEvent(this, pe);
 
 }
 
