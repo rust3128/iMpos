@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include <QGroupBox>
+#include <QSqlQuery>
+#include <QSqlError>
 
 namespace Ui {
 class FuelNameDialog;
@@ -20,9 +22,18 @@ public:
 private slots:
     void on_toolButtonSelectTerminal_clicked();
 
+    void on_pushButtonSelectAll_clicked();
+
+    void on_pushButtonDeSelectAll_clicked();
+
+    void on_pushButtonDeleteSelected_clicked();
+
+    void on_toolButtonSelectTermRegions_clicked();
+
 private:
     void createUI();
-    void fillingTerminals();
+    void fillingTerminals(int terminalID);
+    void fillingTerminals(QList<int> listTerm);
 private:
     Ui::FuelNameDialog *ui;
     QList<int> listTerminals;              //Список терминалов

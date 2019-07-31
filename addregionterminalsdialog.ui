@@ -1,36 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddTerminalDialog</class>
- <widget class="QDialog" name="AddTerminalDialog">
+ <class>AddRegionTerminalsDialog</class>
+ <widget class="QDialog" name="AddRegionTerminalsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>572</width>
-    <height>417</height>
+    <width>565</width>
+    <height>408</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Выбор терминала - Терминал</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="../resource.qrc">
-    <normaloff>:/Image/azs.png</normaloff>:/Image/azs.png</iconset>
+   <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" rowspan="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string/>
-     </property>
-     <property name="pixmap">
-      <pixmap resource="../resource.qrc">:/Image/fuellogo.png</pixmap>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="1">
     <widget class="QLabel" name="label">
      <property name="font">
@@ -53,27 +36,33 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="3" colspan="2">
+   <item row="0" column="0" rowspan="2">
+    <widget class="QLabel" name="labelLogo">
+     <property name="text">
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resource.qrc">:/Image/fuellogo.png</pixmap>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>199</width>
+       <width>271</width>
        <height>20</height>
       </size>
      </property>
     </spacer>
    </item>
-   <item row="2" column="4">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1" colspan="4">
+   <item row="1" column="1" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="font">
       <font>
@@ -87,7 +76,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QTableView" name="tableViewTerminals">
+       <widget class="QTableWidget" name="tableWidgetTerminals">
         <property name="font">
          <font>
           <pointsize>10</pointsize>
@@ -115,14 +104,17 @@
      </layout>
     </widget>
    </item>
+   <item row="2" column="0" colspan="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <tabstops>
-  <tabstop>tableViewTerminals</tabstop>
-  <tabstop>comboBoxRegions</tabstop>
- </tabstops>
  <resources>
-  <include location="../resource.qrc"/>
+  <include location="resource.qrc"/>
  </resources>
  <connections/>
 </ui>

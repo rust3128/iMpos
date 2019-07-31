@@ -48,8 +48,8 @@ void AddTerminalDialog::createModels()
 
 void AddTerminalDialog::createUI()
 {
-     ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(false);
-     ui->buttonBox->button(QDialogButtonBox::Cancel)->setDefault(false);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(false);
+    ui->buttonBox->button(QDialogButtonBox::Cancel)->setDefault(false);
     ui->buttonBox->setFocusProxy(ui->tableViewTerminals);
     ui->tableViewTerminals->setModel(proxyModel);
     ui->tableViewTerminals->verticalHeader()->hide();
@@ -73,6 +73,7 @@ void AddTerminalDialog::createUI()
     ui->comboBoxRegions->setModel(modelRegions);
     ui->comboBoxRegions->setModelColumn(1);
     ui->comboBoxRegions->setCurrentIndex(-1);
+    ui->tableViewTerminals->setFocus();
 }
 
 void AddTerminalDialog::on_comboBoxRegions_activated(int idx)
@@ -101,7 +102,9 @@ void AddTerminalDialog::on_tableViewTerminals_doubleClicked(const QModelIndex &i
 void AddTerminalDialog::on_buttonBox_accepted()
 {
     QModelIndex sourseIdx = ui->tableViewTerminals->selectionModel()->selectedRows().first();
+    sourseIdx = proxyModel->mapToSource(sourseIdx);
     selectedTerminal = modelTerminals->data(modelTerminals->index(sourseIdx.row(),0,QModelIndex())).toInt();
+    this->accept();
 
 }
 int AddTerminalDialog::getTerminals()
