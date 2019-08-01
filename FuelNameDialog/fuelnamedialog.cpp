@@ -24,36 +24,33 @@ FuelNameDialog::~FuelNameDialog()
 
 void FuelNameDialog::createUI()
 {
-//    ui->splitter->setStretchFactor(1,0);
-//    ui->splitter->setStretchFactor(0,1);
-
+    //Расскрашиваем кнопки QDialogButtonBox
     ui->buttonBox->button(QDialogButtonBox::Apply)->setStyleSheet("background: #00FF80");
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setStyleSheet("background: #FA5858");
     ui->buttonBox->button(QDialogButtonBox::Reset)->setStyleSheet("background: #A9BCF5");
 
-//    ui->groupBoxActions->hide();
+    //Деактивируем кнопки управления пока нет добавленных терминалов
     ui->pushButtonSelectAll->setEnabled(false);
     ui->pushButtonDeSelectAll->setEnabled(false);
     ui->pushButtonDeleteSelected->setEnabled(false);
 
+    //Устанавливаем текущую дату и запрещаем выделять дату меньше текущей
     ui->dateEdit->setDate(QDate::currentDate());
     ui->dateEdit->setMinimumDate(QDate::currentDate());
 
+    //Настраиваем внешний вид TableWidget
     ui->tableWidgetTerm->setColumnCount(3);
     ui->tableWidgetTerm->setHorizontalHeaderLabels(QStringList() << "" << "АЗС" << "Наименование");
     ui->tableWidgetTerm->verticalHeader()->hide();
     ui->tableWidgetTerm->resizeColumnsToContents();
     ui->tableWidgetTerm->horizontalHeader()->setStretchLastSection(true);
-
-
 }
-
+//Добавление информации о выбранном терминале
 void FuelNameDialog::fillingTerminals(int terminalID)
 {
     ui->pushButtonSelectAll->setEnabled(true);
     ui->pushButtonDeSelectAll->setEnabled(true);
     ui->pushButtonDeleteSelected->setEnabled(true);
-
 
     int row = ui->tableWidgetTerm->rowCount();
 
@@ -61,9 +58,6 @@ void FuelNameDialog::fillingTerminals(int terminalID)
         if( terminalID == ui->tableWidgetTerm->item(i,1)->data(Qt::DisplayRole).toInt())
             return;
     }
-
-
-
     ui->tableWidgetTerm->insertRow(row);
     QWidget *checkBoxWidget = new QWidget();
     QCheckBox *checkBox = new QCheckBox();
@@ -87,7 +81,7 @@ void FuelNameDialog::fillingTerminals(int terminalID)
     ui->tableWidgetTerm->verticalHeader()->setDefaultSectionSize(ui->tableWidgetTerm->verticalHeader()->minimumSectionSize());
 
 }
-
+//Добавление информации о выбранном списке терминалов
 void FuelNameDialog::fillingTerminals(QList<int> listTerm)
 {
     foreach(int terminalID, listTerm){

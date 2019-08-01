@@ -21,24 +21,17 @@ public:
 
 private slots:
     void on_toolButtonSelectTerminal_clicked();
-
     void on_pushButtonSelectAll_clicked();
-
     void on_pushButtonDeSelectAll_clicked();
-
     void on_pushButtonDeleteSelected_clicked();
-
     void on_toolButtonSelectTermRegions_clicked();
-
     void on_toolButtonSelectRegion_clicked();
-
 private:
-    void createUI();
-    void fillingTerminals(int terminalID);
-    void fillingTerminals(QList<int> listTerm);
+    void createUI();                            //Создание начального интерфейса
+    void fillingTerminals(int terminalID);      //Зполнение TableWidget выбранным терминалом
+    void fillingTerminals(QList<int> listTerm); //Зполнение TableWidget выбранными терминалами
 private:
     Ui::FuelNameDialog *ui;
-    QList<int> listTerminals;              //Список терминалов
 };
 
 #endif // FUELNAMEDIALOG_H
