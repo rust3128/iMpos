@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AddRegionTerminalsDialog</class>
- <widget class="QDialog" name="AddRegionTerminalsDialog">
+ <class>AddRegionsDialog</class>
+ <widget class="QDialog" name="AddRegionsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>522</width>
-    <height>418</height>
+    <width>498</width>
+    <height>373</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Выбор региона - Терминал</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0" rowspan="2">
+   <item row="0" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
       <string/>
@@ -28,41 +28,6 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Регион:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="QComboBox" name="comboBoxRegions">
-     <property name="editable">
-      <bool>true</bool>
-     </property>
-     <property name="maxVisibleItems">
-      <number>15</number>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>228</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="1" column="1" colspan="3">
     <widget class="QGroupBox" name="groupBox">
      <property name="font">
       <font>
@@ -72,7 +37,7 @@
       </font>
      </property>
      <property name="title">
-      <string>Выберите терминал</string>
+      <string>Выберите Регион</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="1" column="0">
@@ -138,7 +103,7 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4">
+   <item row="1" column="1">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>

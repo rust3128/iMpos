@@ -29,6 +29,7 @@ SOURCES += \
         DataBases/databases.cpp \
         DataBases/databasesettings.cpp \
         DataBases/options.cpp \
+        FuelNameDialog/addregionsdialog.cpp \
         FuelNameDialog/addregionterminalsdialog.cpp \
         FuelNameDialog/addterminaldialog.cpp \
         FuelNameDialog/fuelnamedialog.cpp \
@@ -44,6 +45,7 @@ HEADERS += \
         DataBases/databases.h \
         DataBases/databasesettings.h \
         DataBases/options.h \
+        FuelNameDialog/addregionsdialog.h \
         FuelNameDialog/addregionterminalsdialog.h \
         FuelNameDialog/addterminaldialog.h \
         FuelNameDialog/fuelnamedialog.h \
@@ -55,6 +57,7 @@ HEADERS += \
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
+        FuelNameDialog/addregionsdialog.ui \
         FuelNameDialog/addregionterminalsdialog.ui \
         FuelNameDialog/addterminaldialog.ui \
         FuelNameDialog/fuelnamedialog.ui \

@@ -30,6 +30,8 @@ private slots:
 
     void on_toolButtonSelectTermRegions_clicked();
 
+    void on_toolButtonSelectRegion_clicked();
+
 private:
     void createUI();
     void fillingTerminals(int terminalID);

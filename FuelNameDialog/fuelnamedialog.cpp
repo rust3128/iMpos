@@ -2,6 +2,7 @@
 #include "ui_fuelnamedialog.h"
 #include "addterminaldialog.h"
 #include "addregionterminalsdialog.h"
+#include "addregionsdialog.h"
 #include "LoggingCategories/loggingcategories.h"
 #include <QGroupBox>
 #include <QDate>
@@ -89,12 +90,14 @@ void FuelNameDialog::fillingTerminals(int terminalID)
 
 void FuelNameDialog::fillingTerminals(QList<int> listTerm)
 {
-
+    foreach(int terminalID, listTerm){
+        fillingTerminals(terminalID);
+    }
 }
 
 void FuelNameDialog::on_toolButtonSelectTerminal_clicked()
 {
-    AddTerminalDialog *addTermDlg = new AddTerminalDialog();
+    AddTerminalDialog *addTermDlg = new AddTerminalDialog(this);
 
     addTermDlg->move(this->parentWidget()->geometry().center().x() - addTermDlg->geometry().center().x(),
                      this->parentWidget()->geometry().center().y() - addTermDlg->geometry().center().y());
@@ -158,14 +161,23 @@ void FuelNameDialog::on_pushButtonDeleteSelected_clicked()
 
 void FuelNameDialog::on_toolButtonSelectTermRegions_clicked()
 {
-    AddRegionTerminalsDialog *addRegTermDlg = new AddRegionTerminalsDialog();
+    AddRegionTerminalsDialog *addRegTermDlg = new AddRegionTerminalsDialog(this);
 
     addRegTermDlg->move(this->parentWidget()->geometry().center().x() - addRegTermDlg->geometry().center().x(),
                         this->parentWidget()->geometry().center().y() - addRegTermDlg->geometry().center().y());
     if(addRegTermDlg->exec() == QDialog::Accepted){
-
+        fillingTerminals(addRegTermDlg->getTerminalsLists());
     }
 
 }
 
+void FuelNameDialog::on_toolButtonSelectRegion_clicked()
+{
+    AddRegionsDialog *addRegDlg = new AddRegionsDialog(this);
 
+    addRegDlg->move(this->parentWidget()->geometry().center().x() - addRegDlg->geometry().center().x(),
+                        this->parentWidget()->geometry().center().y() - addRegDlg->geometry().center().y());
+    if(addRegDlg->exec() == QDialog::Accepted){
+        fillingTerminals(addRegDlg->getTerminalsLists());
+    }
+}
