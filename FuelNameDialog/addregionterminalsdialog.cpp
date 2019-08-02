@@ -10,7 +10,7 @@ AddRegionTerminalsDialog::AddRegionTerminalsDialog(QWidget *parent) :
 
 {
     ui->setupUi(this);
-    checkedTerminals.clear();
+    checkedTerminals.clear();    //Очищаем список
     createModel();
     createUI();
 }
@@ -46,7 +46,6 @@ void AddRegionTerminalsDialog::createUI()
     ui->comboBoxRegions->setModelColumn(1);
     ui->comboBoxRegions->setCurrentIndex(0);
 
-
     ui->tableWidgetTerm->setColumnCount(3);
     ui->tableWidgetTerm->setHorizontalHeaderLabels(QStringList() << "" << "АЗС" << "Наименование");
     ui->tableWidgetTerm->verticalHeader()->hide();
@@ -58,14 +57,15 @@ void AddRegionTerminalsDialog::createUI()
 
 void AddRegionTerminalsDialog::on_comboBoxRegions_activated(int idx)
 {
+    //Получаем код региона из Модели привязанной к ComboBox
     int ownerid = modelRegions->data(modelRegions->index(idx,0,QModelIndex())).toInt();
-    qInfo(logInfo()) << "ownerID" << ownerid;
 
-
+    //Очищаем TableWidget
     ui->tableWidgetTerm->clear();
     ui->tableWidgetTerm->setRowCount(0);
     ui->tableWidgetTerm->setHorizontalHeaderLabels(QStringList() << "" << "АЗС" << "Наименование");
 
+    //Получаем список терминалов выбранного региона и заполняем ими табличную часть
     QSqlQuery q;
     q.prepare("select DISTINCT t.terminal_id, TRIM(t.NAME) from TERMINALS t "
               "LEFT JOIN shifts s ON s.TERMINAL_ID = t.TERMINAL_ID "
@@ -76,7 +76,6 @@ void AddRegionTerminalsDialog::on_comboBoxRegions_activated(int idx)
     int row = 0;
     while(q.next()) {
         ui->tableWidgetTerm->insertRow(row);
-
         QWidget *checkBoxWidget = new QWidget();
         QCheckBox *checkBox = new QCheckBox();
         QHBoxLayout *layoutCheckBox = new QHBoxLayout(checkBoxWidget);
@@ -95,7 +94,7 @@ void AddRegionTerminalsDialog::on_comboBoxRegions_activated(int idx)
     ui->tableWidgetTerm->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidgetTerm->verticalHeader()->setDefaultSectionSize(ui->tableWidgetTerm->verticalHeader()->minimumSectionSize());
 }
-
+//Выбор всех терминалов
 void AddRegionTerminalsDialog::on_pushButtonSelectAll_clicked()
 {
     const int rowCount = ui->tableWidgetTerm->rowCount();
@@ -105,7 +104,7 @@ void AddRegionTerminalsDialog::on_pushButtonSelectAll_clicked()
         checkBox->setChecked(true);
     }
 }
-
+//Снятие выбора у всех терминалов
 void AddRegionTerminalsDialog::on_pushButtonDeSelectAll_clicked()
 {
     const int rowCount = ui->tableWidgetTerm->rowCount();
@@ -120,7 +119,7 @@ void AddRegionTerminalsDialog::on_buttonBox_rejected()
 {
     this->reject();
 }
-
+//Получаем список выбранных терминалов для передачи в родительский виджет
 void AddRegionTerminalsDialog::on_buttonBox_accepted()
 {
     checkedTerminals.clear();

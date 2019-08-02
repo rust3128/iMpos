@@ -24,7 +24,7 @@ FuelNameDialog::~FuelNameDialog()
 
 void FuelNameDialog::createUI()
 {
-    //Расскрашиваем кнопки QDialogButtonBox
+    //Раскрашиваем кнопки QDialogButtonBox
     ui->buttonBox->button(QDialogButtonBox::Apply)->setStyleSheet("background: #00FF80");
     ui->buttonBox->button(QDialogButtonBox::Cancel)->setStyleSheet("background: #FA5858");
     ui->buttonBox->button(QDialogButtonBox::Reset)->setStyleSheet("background: #A9BCF5");
@@ -53,12 +53,14 @@ void FuelNameDialog::fillingTerminals(int terminalID)
     ui->pushButtonDeleteSelected->setEnabled(true);
 
     int row = ui->tableWidgetTerm->rowCount();
-
+    //Если терминал есть в списке его не добавляем.
     for (int i = 0; i<row; ++i) {
         if( terminalID == ui->tableWidgetTerm->item(i,1)->data(Qt::DisplayRole).toInt())
             return;
     }
+
     ui->tableWidgetTerm->insertRow(row);
+    //В столбце 0 добавляем CheckBox
     QWidget *checkBoxWidget = new QWidget();
     QCheckBox *checkBox = new QCheckBox();
     QHBoxLayout *layoutCheckBox = new QHBoxLayout(checkBoxWidget);
@@ -67,6 +69,7 @@ void FuelNameDialog::fillingTerminals(int terminalID)
     layoutCheckBox->setContentsMargins(0,0,0,0);
     checkBox->setChecked(true);
     ui->tableWidgetTerm->setCellWidget(row,0,checkBoxWidget);
+    //Получаем данные о терминале из базы данных и добавляем их в TableWidget
     QSqlQuery q;
     q.prepare("select TRIM(t.NAME) from TERMINALS t where t.TERMINAL_ID=:terminalID");
     q.bindValue(":terminalID", terminalID);
@@ -88,7 +91,7 @@ void FuelNameDialog::fillingTerminals(QList<int> listTerm)
         fillingTerminals(terminalID);
     }
 }
-
+//Вызываем диалог добавления одного терминала
 void FuelNameDialog::on_toolButtonSelectTerminal_clicked()
 {
     AddTerminalDialog *addTermDlg = new AddTerminalDialog(this);
@@ -96,14 +99,34 @@ void FuelNameDialog::on_toolButtonSelectTerminal_clicked()
     addTermDlg->move(this->parentWidget()->geometry().center().x() - addTermDlg->geometry().center().x(),
                      this->parentWidget()->geometry().center().y() - addTermDlg->geometry().center().y());
     if(addTermDlg->exec() == QDialog::Accepted){
-//        listTerminals.append(addTermDlg->getTerminals());
         fillingTerminals(addTermDlg->getTerminals());
-
-
     }
 
 }
+//Вызываем диалог добавления терминалов региона
+void FuelNameDialog::on_toolButtonSelectTermRegions_clicked()
+{
+    AddRegionTerminalsDialog *addRegTermDlg = new AddRegionTerminalsDialog(this);
 
+    addRegTermDlg->move(this->parentWidget()->geometry().center().x() - addRegTermDlg->geometry().center().x(),
+                        this->parentWidget()->geometry().center().y() - addRegTermDlg->geometry().center().y());
+    if(addRegTermDlg->exec() == QDialog::Accepted){
+        fillingTerminals(addRegTermDlg->getTerminalsLists());
+    }
+
+}
+//Вызываем диалог добавления региона
+void FuelNameDialog::on_toolButtonSelectRegion_clicked()
+{
+    AddRegionsDialog *addRegDlg = new AddRegionsDialog(this);
+
+    addRegDlg->move(this->parentWidget()->geometry().center().x() - addRegDlg->geometry().center().x(),
+                        this->parentWidget()->geometry().center().y() - addRegDlg->geometry().center().y());
+    if(addRegDlg->exec() == QDialog::Accepted){
+        fillingTerminals(addRegDlg->getTerminalsLists());
+    }
+}
+//Устанавливаем выбор на всех CheckBox в таблице
 void FuelNameDialog::on_pushButtonSelectAll_clicked()
 {
     const int rowCount = ui->tableWidgetTerm->rowCount();
@@ -113,7 +136,7 @@ void FuelNameDialog::on_pushButtonSelectAll_clicked()
         checkBox->setChecked(true);
     }
 }
-
+//Удаляем выбор на на всех CheckBox в таблице
 void FuelNameDialog::on_pushButtonDeSelectAll_clicked()
 {
     const int rowCount = ui->tableWidgetTerm->rowCount();
@@ -123,11 +146,11 @@ void FuelNameDialog::on_pushButtonDeSelectAll_clicked()
         checkBox->setChecked(false);
     }
 }
-
+//Удаление выбранных терминалов из TableWidget
 void FuelNameDialog::on_pushButtonDeleteSelected_clicked()
 {
     int rowCount = ui->tableWidgetTerm->rowCount();
-    int uncheckCount=0;
+    int uncheckCount=0;                 //Колличество не выбранных строк
     for(int i =0; i<rowCount; i++){
         QWidget *item = ui->tableWidgetTerm->cellWidget(i,0);
         QCheckBox *checkBox = qobject_cast<QCheckBox*>(item->layout()->itemAt(0)->widget());
@@ -136,6 +159,8 @@ void FuelNameDialog::on_pushButtonDeleteSelected_clicked()
         }
     }
     int currentRow = 0;
+    //Перебираем строки таблицы и если CheckBox выбран удалянм строку
+    //если не выбран переходим на следующую строку
     while(rowCount != uncheckCount){
         QWidget *item = ui->tableWidgetTerm->cellWidget(currentRow,0);
         QCheckBox *checkBox = qobject_cast<QCheckBox*>(item->layout()->itemAt(0)->widget());
@@ -153,25 +178,4 @@ void FuelNameDialog::on_pushButtonDeleteSelected_clicked()
     }
 }
 
-void FuelNameDialog::on_toolButtonSelectTermRegions_clicked()
-{
-    AddRegionTerminalsDialog *addRegTermDlg = new AddRegionTerminalsDialog(this);
 
-    addRegTermDlg->move(this->parentWidget()->geometry().center().x() - addRegTermDlg->geometry().center().x(),
-                        this->parentWidget()->geometry().center().y() - addRegTermDlg->geometry().center().y());
-    if(addRegTermDlg->exec() == QDialog::Accepted){
-        fillingTerminals(addRegTermDlg->getTerminalsLists());
-    }
-
-}
-
-void FuelNameDialog::on_toolButtonSelectRegion_clicked()
-{
-    AddRegionsDialog *addRegDlg = new AddRegionsDialog(this);
-
-    addRegDlg->move(this->parentWidget()->geometry().center().x() - addRegDlg->geometry().center().x(),
-                        this->parentWidget()->geometry().center().y() - addRegDlg->geometry().center().y());
-    if(addRegDlg->exec() == QDialog::Accepted){
-        fillingTerminals(addRegDlg->getTerminalsLists());
-    }
-}

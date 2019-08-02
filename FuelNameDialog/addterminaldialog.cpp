@@ -48,8 +48,6 @@ void AddTerminalDialog::createModels()
 
 void AddTerminalDialog::createUI()
 {
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setDefault(false);
-    ui->buttonBox->button(QDialogButtonBox::Cancel)->setDefault(false);
     ui->buttonBox->setFocusProxy(ui->tableViewTerminals);
     ui->tableViewTerminals->setModel(proxyModel);
     ui->tableViewTerminals->verticalHeader()->hide();
@@ -57,23 +55,16 @@ void AddTerminalDialog::createUI()
     ui->tableViewTerminals->verticalHeader()->setDefaultSectionSize(ui->tableViewTerminals->verticalHeader()->minimumSectionSize());
     ui->tableViewTerminals->resizeColumnsToContents();
 
-
-    // Выделяем нужную строку
-
-    ui->tableViewTerminals->selectRow(0);
-
-    // Имитируем нажатие кнопки Tab, чтобы выделить строку
-    QKeyEvent* pe = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab,Qt::NoModifier, "Tab");
-    QApplication::sendEvent(this, pe) ;
-//    QApplication::sendEvent(this, pe) ;
-//    QApplication::sendEvent(this, pe) ;
-
-
-
     ui->comboBoxRegions->setModel(modelRegions);
     ui->comboBoxRegions->setModelColumn(1);
     ui->comboBoxRegions->setCurrentIndex(-1);
+
     ui->tableViewTerminals->setFocus();
+    // Выделяем нужную строку
+    ui->tableViewTerminals->selectRow(0);
+    // Имитируем нажатие кнопки Tab, чтобы  подсветить выбранную строку
+    QKeyEvent* pe = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab,Qt::NoModifier, "Tab");
+    QApplication::sendEvent(this, pe) ;
 }
 
 void AddTerminalDialog::on_comboBoxRegions_activated(int idx)
@@ -83,22 +74,19 @@ void AddTerminalDialog::on_comboBoxRegions_activated(int idx)
     proxyModel->setFilterRegExp(QRegExp("^"+ownerid+"$"));
     proxyModel->setFilterKeyColumn(2);
 
+    ui->tableViewTerminals->setFocus();
     ui->tableViewTerminals->selectRow(0);
-
     QKeyEvent* pe = new QKeyEvent(QEvent::KeyPress, Qt::Key_Tab,Qt::NoModifier, "Tab");
     QApplication::sendEvent(ui->tableViewTerminals, pe);
-//    QApplication::sendEvent(this, pe);
-//    QApplication::sendEvent(this, pe);
-
 }
-
+//Получаем номер выбранного терминала по двойному щелчку
 void AddTerminalDialog::on_tableViewTerminals_doubleClicked(const QModelIndex &idx)
 {
     QModelIndex sourseIdx = proxyModel->mapToSource(idx);
     selectedTerminal = modelTerminals->data(modelTerminals->index(sourseIdx.row(),0,QModelIndex())).toInt();
     this->accept();
 }
-
+//Получаем номер выбранного терминала по нажатию кнопки ОК
 void AddTerminalDialog::on_buttonBox_accepted()
 {
     QModelIndex sourseIdx = ui->tableViewTerminals->selectionModel()->selectedRows().first();
@@ -110,4 +98,9 @@ void AddTerminalDialog::on_buttonBox_accepted()
 int AddTerminalDialog::getTerminals()
 {
     return selectedTerminal;
+}
+
+void AddTerminalDialog::on_buttonBox_rejected()
+{
+    this->reject();
 }

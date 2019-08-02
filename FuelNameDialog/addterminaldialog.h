@@ -23,15 +23,17 @@ private slots:
     void on_comboBoxRegions_activated(int idx);
     void on_tableViewTerminals_doubleClicked(const QModelIndex &index);
     void on_buttonBox_accepted();
+    void on_buttonBox_rejected();
+
 private:
-    void createModels();
-    void createUI();
+    void createModels();                    //Создание моделей
+    void createUI();                        //первичная настройка интерефейса
 private:
     Ui::AddTerminalDialog *ui;
-    QSqlQueryModel *modelTerminals;
-    QSqlQueryModel *modelRegions;
-    QSortFilterProxyModel *proxyModel;
-    int selectedTerminal;
+    QSqlQueryModel *modelTerminals;         //Модель терминалов
+    QSqlQueryModel *modelRegions;           //Модель регионов
+    QSortFilterProxyModel *proxyModel;      //Модель для установки фильтра по региону
+    int selectedTerminal;                   //Выбранный терминал
 };
 
 #endif // ADDTERMINALDIALOG_H

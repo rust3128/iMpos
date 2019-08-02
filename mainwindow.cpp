@@ -73,8 +73,7 @@ void MainWindow::on_actionUsers_triggered()
 void MainWindow::on_actionFuelName_triggered()
 {
     FuelNameDialog *fuelDlg = new FuelNameDialog();
-
-
+    //Устанавливаем диалог центральным виджетом гланого окна
     this->setCentralWidget(fuelDlg);
     this->setWindowTitle(this->windowTitle()+" - "+fuelDlg->windowTitle());
     fuelDlg->exec();
