@@ -3,9 +3,11 @@
 #include "addterminaldialog.h"
 #include "addregionterminalsdialog.h"
 #include "addregionsdialog.h"
+#include "viewfuelnamedialog.h"
 #include "LoggingCategories/loggingcategories.h"
 #include <QGroupBox>
 #include <QDate>
+#include <QMessageBox>
 
 FuelNameDialog::FuelNameDialog(QWidget *parent) :
     QDialog(parent),
@@ -25,9 +27,11 @@ FuelNameDialog::~FuelNameDialog()
 void FuelNameDialog::createUI()
 {
     //Раскрашиваем кнопки QDialogButtonBox
-    ui->buttonBox->button(QDialogButtonBox::Apply)->setStyleSheet("background: #00FF80");
-    ui->buttonBox->button(QDialogButtonBox::Cancel)->setStyleSheet("background: #FA5858");
-    ui->buttonBox->button(QDialogButtonBox::Reset)->setStyleSheet("background: #A9BCF5");
+    ui->buttonBoxView->button(QDialogButtonBox::Ok)->setStyleSheet("background: #00FF80");
+    ui->buttonBoxView->button(QDialogButtonBox::Cancel)->setStyleSheet("background: #FA5858");
+    ui->buttonBoxEdit->button(QDialogButtonBox::Ok)->setStyleSheet("background: #00FF80");
+    ui->buttonBoxEdit->button(QDialogButtonBox::Cancel)->setStyleSheet("background: #FA5858");
+
 
     //Деактивируем кнопки управления пока нет добавленных терминалов
     ui->pushButtonSelectAll->setEnabled(false);
@@ -179,3 +183,36 @@ void FuelNameDialog::on_pushButtonDeleteSelected_clicked()
 }
 
 
+
+void FuelNameDialog::on_groupBoxActions_clicked(bool checked)
+{
+    if(checked){
+        listTerminals.clear();
+        int rowCount = ui->tableWidgetTerm->rowCount();
+        for(int i=0; i<rowCount; ++i){
+            QWidget *item = ui->tableWidgetTerm->cellWidget(i,0);
+            QCheckBox *checkBox = qobject_cast<QCheckBox*>(item->layout()->itemAt(0)->widget());
+            if(checkBox->isChecked()){
+               listTerminals.append(ui->tableWidgetTerm->item(i,1)->data(Qt::DisplayRole).toInt());
+            }
+        }
+        if(listTerminals.size()==0){
+            QMessageBox::warning(this, "Ошибка ввода","Нет выбранных терминалов");
+            ui->groupBoxActions->setChecked(false);
+            return;
+        }
+    }
+    ui->groupBoxFuel->setEnabled(!checked);
+}
+
+void FuelNameDialog::on_buttonBoxView_rejected()
+{
+    ui->groupBoxFuel->setEnabled(true);
+    ui->groupBoxActions->setChecked(false);
+}
+
+void FuelNameDialog::on_buttonBoxView_accepted()
+{
+    ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,this);
+    viewFnDlg->exec();
+}

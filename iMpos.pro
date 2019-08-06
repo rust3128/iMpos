@@ -33,6 +33,7 @@ SOURCES += \
         FuelNameDialog/addregionterminalsdialog.cpp \
         FuelNameDialog/addterminaldialog.cpp \
         FuelNameDialog/fuelnamedialog.cpp \
+        FuelNameDialog/viewfuelnamedialog.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
         SettingsDialog/settingsdialog.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
         FuelNameDialog/addregionterminalsdialog.h \
         FuelNameDialog/addterminaldialog.h \
         FuelNameDialog/fuelnamedialog.h \
+        FuelNameDialog/viewfuelnamedialog.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
         SettingsDialog/settingsdialog.h \
@@ -61,6 +63,7 @@ FORMS += \
         FuelNameDialog/addregionterminalsdialog.ui \
         FuelNameDialog/addterminaldialog.ui \
         FuelNameDialog/fuelnamedialog.ui \
+        FuelNameDialog/viewfuelnamedialog.ui \
         LoginDialog/logindialog.ui \
         SettingsDialog/settingsdialog.ui \
         UsersDialog/usersdialog.ui \

@@ -94,8 +94,12 @@ void AddRegionsDialog::on_buttonBox_accepted()
 
         }
     }
+
     strIN.resize(strIN.size()-1);
-    QString strSQL = QString("select t.TERMINAL_ID from TERMINALS t  where t.OWNER_ID in (%1) order by t.TERMINAL_ID").arg(strIN);
+    QString strSQL = QString("select DISTINCT t.TERMINAL_ID from TERMINALS t "
+                             "LEFT JOIN shifts s ON s.TERMINAL_ID = t.TERMINAL_ID "
+                             "where t.OWNER_ID in (%1) and s.SHIFT_ID>1"
+                             "order by t.TERMINAL_ID").arg(strIN);
     QSqlQuery q;
     if(!q.exec(strSQL)) qCritical(logCritical()) << "Не удалось получить список терминалов" << q.lastError().text();
     while(q.next()){
