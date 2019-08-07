@@ -27,5 +27,9 @@
         <file>Image/reports.png</file>
         <file>Image/fuellogo.png</file>
         <file>Image/azs.png</file>
+        <file>Image/Accept.png</file>
+        <file>Image/database.png</file>
+        <file>Image/selectfuel.png</file>
+        <file>Image/error.png</file>
     </qresource>
 </RCC>

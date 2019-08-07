@@ -187,7 +187,9 @@ void FuelNameDialog::on_pushButtonDeleteSelected_clicked()
 void FuelNameDialog::on_groupBoxActions_clicked(bool checked)
 {
     if(checked){
+        //Очищаем список терминалов передаваемых для дальнейшей обработки
         listTerminals.clear();
+        //Добавляем отмеченные терминалы в список
         int rowCount = ui->tableWidgetTerm->rowCount();
         for(int i=0; i<rowCount; ++i){
             QWidget *item = ui->tableWidgetTerm->cellWidget(i,0);
@@ -196,6 +198,7 @@ void FuelNameDialog::on_groupBoxActions_clicked(bool checked)
                listTerminals.append(ui->tableWidgetTerm->item(i,1)->data(Qt::DisplayRole).toInt());
             }
         }
+        //Проверяем что список не пустой
         if(listTerminals.size()==0){
             QMessageBox::warning(this, "Ошибка ввода","Нет выбранных терминалов");
             ui->groupBoxActions->setChecked(false);
@@ -213,6 +216,7 @@ void FuelNameDialog::on_buttonBoxView_rejected()
 
 void FuelNameDialog::on_buttonBoxView_accepted()
 {
+    //Диалог для отображения результатов и прогресса получения данных с АЗС
     ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,this);
     viewFnDlg->exec();
 }

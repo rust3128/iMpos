@@ -32,7 +32,10 @@ SOURCES += \
         FuelNameDialog/addregionsdialog.cpp \
         FuelNameDialog/addregionterminalsdialog.cpp \
         FuelNameDialog/addterminaldialog.cpp \
+        FuelNameDialog/azsfuelname.cpp \
+        FuelNameDialog/fuelname.cpp \
         FuelNameDialog/fuelnamedialog.cpp \
+        FuelNameDialog/getfuelnameclass.cpp \
         FuelNameDialog/viewfuelnamedialog.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
@@ -49,13 +52,18 @@ HEADERS += \
         FuelNameDialog/addregionsdialog.h \
         FuelNameDialog/addregionterminalsdialog.h \
         FuelNameDialog/addterminaldialog.h \
+        FuelNameDialog/azsfuelname.h \
+        FuelNameDialog/fuelname.h \
         FuelNameDialog/fuelnamedialog.h \
+        FuelNameDialog/getfuelnameclass.h \
+        FuelNameDialog/statusthread.h \
         FuelNameDialog/viewfuelnamedialog.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
         SettingsDialog/settingsdialog.h \
         UsersDialog/usersdialog.h \
-        mainwindow.h
+        mainwindow.h \
+        passconv.h
 
 FORMS += \
         ConnectionSettingDialog/connectionsettingdialog.ui \
