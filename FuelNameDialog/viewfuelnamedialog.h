@@ -6,6 +6,7 @@
 #include <QSqlQuery>
 #include <QSqlError>
 
+
 namespace Ui {
 class ViewFuelNameDialog;
 }
@@ -27,6 +28,7 @@ private:
     void createUI();
     void getConnectionsList();                 //Получения дагнных о подключении к базам данных АЗС
     void fuelNameList();                       //Наименования видов топлива
+    void showFuelName();                       //Отображение информации о наименованиях
 
 private:
     Ui::ViewFuelNameDialog *ui;
@@ -34,6 +36,7 @@ private:
     QList<QStringList> m_connectionsList;     //Cписок данных для подключения к базе данных АЗС
     QList<AzsFuelName> m_listFuelName;        //Список наименований топлива
     QStringList statusText;                   //Список описанияй статуса подключений
+    int colError;                             //Количество неудачных попыток
 };
 
 #endif // VIEWFUELNAMEDIALOG_H

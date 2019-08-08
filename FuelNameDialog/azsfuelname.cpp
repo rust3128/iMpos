@@ -17,7 +17,7 @@ void AzsFuelName::insertFuelName(int tankID, int fuelID, QString shortName, QStr
     fn.setFuelID(fuelID);
     fn.setShortName(shortName);
     fn.setName(name);
-    listFuels().append(fn);
+    m_listFuels.append(fn);
 }
 
 int AzsFuelName::terminalID() const
@@ -28,4 +28,14 @@ int AzsFuelName::terminalID() const
 void AzsFuelName::setTerminalID(int terminalID)
 {
     m_terminalID = terminalID;
+}
+
+QString AzsFuelName::azsName() const
+{
+    return m_azsName;
+}
+
+void AzsFuelName::setAzsName(const QString &azsName)
+{
+    m_azsName = azsName;
 }

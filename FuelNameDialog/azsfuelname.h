@@ -12,8 +12,12 @@ public:
     void insertFuelName(int tankID, int fuelID,  QString shortName, QString name); //Добавления наименования топлива
     int terminalID() const;
     void setTerminalID(int terminalID);
+    QString azsName() const;
+    void setAzsName(const QString &azsName);
+
 private:
     int m_terminalID;           //Номер терминала
+    QString m_azsName;          //Наименование АЗС
     QList<FuelName> m_listFuels;//Список наименований топлива
 };
 

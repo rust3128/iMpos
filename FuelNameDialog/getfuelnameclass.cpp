@@ -61,7 +61,15 @@ void GetFuelNameClass::getFuelList()
     while(q.next()){
         _fuelName.insertFuelName(q.value(0).toInt(),q.value(1).toInt(),q.value(2).toString(),q.value(3).toString());
     }
+    q.finish();
+    q.clear();
+    q.prepare("select trim(t.NAME) from terminals t WHERE t.TERMINAL_ID = :terminalID");
+    q.bindValue(":terminalID", currentStatus.terminalId);
+    q.exec();
+    q.next();
+    _fuelName.setAzsName(q.value(0).toString());
     currentStatus.currentStatus=FINISHED;
+
     emit signalSendAzsFuelName(_fuelName);
     emit signalSendStatus(currentStatus);
     emit finisGetList();
