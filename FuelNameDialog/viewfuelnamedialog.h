@@ -16,10 +16,12 @@ class ViewFuelNameDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ViewFuelNameDialog(QList<int> *listTerm, QWidget *parent = nullptr);
+    explicit ViewFuelNameDialog(QList<int> *listTerm, int currentTask, QWidget *parent = nullptr);
     ~ViewFuelNameDialog();
 
 private slots:
+
+    void on_buttonBox_rejected();
 
 public slots:
     void slotGetStatusThread(statusThread status);      //Обработка статуса выполнения запроса
@@ -29,6 +31,7 @@ private:
     void getConnectionsList();                 //Получения дагнных о подключении к базам данных АЗС
     void fuelNameList();                       //Наименования видов топлива
     void showFuelName();                       //Отображение информации о наименованиях
+    void exportXlsx();                         //Экспорт результатов в xlsx файл
 
 private:
     Ui::ViewFuelNameDialog *ui;
@@ -37,6 +40,8 @@ private:
     QList<AzsFuelName> m_listFuelName;        //Список наименований топлива
     QStringList statusText;                   //Список описанияй статуса подключений
     int colError;                             //Количество неудачных попыток
+    int m_currentTask;                        //Текущая задача
+    QStringList headers;                      //Заголовки столбцов
 };
 
 #endif // VIEWFUELNAMEDIALOG_H

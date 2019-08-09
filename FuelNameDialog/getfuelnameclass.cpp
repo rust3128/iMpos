@@ -67,6 +67,7 @@ void GetFuelNameClass::getFuelList()
     q.bindValue(":terminalID", currentStatus.terminalId);
     q.exec();
     q.next();
+    q.first();
     _fuelName.setAzsName(q.value(0).toString());
     currentStatus.currentStatus=FINISHED;
 

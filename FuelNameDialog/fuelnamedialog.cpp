@@ -4,6 +4,7 @@
 #include "addregionterminalsdialog.h"
 #include "addregionsdialog.h"
 #include "viewfuelnamedialog.h"
+#include "tasklist.h"
 #include "LoggingCategories/loggingcategories.h"
 #include <QGroupBox>
 #include <QDate>
@@ -216,7 +217,9 @@ void FuelNameDialog::on_buttonBoxView_rejected()
 
 void FuelNameDialog::on_buttonBoxView_accepted()
 {
+    //Определяем дальнейший алгоритм работы в зависимости от выбранного checkBox
+    int currentTask = (ui->radioButtonReport->isChecked()) ? VIEW_NAME : XLSX_EXPORT;
     //Диалог для отображения результатов и прогресса получения данных с АЗС
-    ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,this);
+    ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,currentTask, this);
     viewFnDlg->exec();
 }

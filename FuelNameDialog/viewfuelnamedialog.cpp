@@ -1,9 +1,20 @@
 #include "viewfuelnamedialog.h"
 #include "ui_viewfuelnamedialog.h"
 #include "passconv.h"
+#include "tasklist.h"
 #include "getfuelnameclass.h"
 #include "LoggingCategories/loggingcategories.h"
 #include <QThread>
+#include <QFile>
+#include <QDesktopServices>
+
+#include "xlsxdocument.h"
+#include "xlsxchartsheet.h"
+#include "xlsxcellrange.h"
+#include "xlsxchart.h"
+#include "xlsxrichstring.h"
+#include "xlsxworkbook.h"
+using namespace QXlsx;
 
 static bool compare(const AzsFuelName& first, const AzsFuelName& second)
 {
@@ -18,10 +29,11 @@ static bool compare(const AzsFuelName& first, const AzsFuelName& second)
 }
 
 
-ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, QWidget *parent) :
+ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, int currentTask,  QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ViewFuelNameDialog),
-    m_terminalSList(listTerm)
+    m_terminalSList(listTerm),
+    m_currentTask(currentTask)
 {
     ui->setupUi(this);
 
@@ -32,6 +44,7 @@ ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, QWidget *parent) :
     statusText.insert(ERROR_GET_FUEL_NAME, "Ошибка получения списка наименований топлива!");
     statusText.insert(FINISHED,"Готово!");
 
+    headers <<"Резервуар"<<"Код"<<"Краткое"<<"Полное";
     createUI();
     getConnectionsList();
     fuelNameList();
@@ -148,8 +161,21 @@ void ViewFuelNameDialog::slotGetStatusThread(statusThread status)
         }
     }
     ui->progressBarGetFuel->setFormat("Обработано %v из %m. Ошибок "+QString::number(colError));
+    //Проверяем что произошло получение информации от всех АЗС указанных в списке
+    //И в зависимости от типа задачи запускаем соответствующую функцию
     if(ui->progressBarGetFuel->value() == m_connectionsList.size()){
-        showFuelName();
+        //Сортируем список азс определив статическую функцию compare
+        std::sort(m_listFuelName.begin(), m_listFuelName.end(),compare);
+        switch (m_currentTask) {
+        case VIEW_NAME:
+            showFuelName();
+            break;
+        case XLSX_EXPORT:
+            exportXlsx();
+            break;
+        default:
+            break;
+        }
     }
 }
 
@@ -158,25 +184,26 @@ void ViewFuelNameDialog::slotGetAzsFuelName(AzsFuelName azsFuelname)
     //Добавляем полученный список наименований
     m_listFuelName.append(azsFuelname);
 }
-
+//Отображение наименований
 void ViewFuelNameDialog::showFuelName()
 {
-    std::sort(m_listFuelName.begin(), m_listFuelName.end(),compare);
-    QSqlQuery q;
     ui->groupBoxProgress->hide();
     ui->tableWidgetView->setColumnCount(4);
-    ui->tableWidgetView->setHorizontalHeaderLabels(QStringList() <<"Резервуар"<<"Код"<<"Кратко"<<"Полное");
+    ui->tableWidgetView->setHorizontalHeaderLabels(headers);
     ui->tableWidgetView->verticalHeader()->hide();
     int colAzs = m_listFuelName.size();
     for(int i = 0; i<colAzs; ++i ){
+        //Добавляем строку с номером и адресом АЗС
         int row = ui->tableWidgetView->rowCount();
         ui->tableWidgetView->insertRow(row);
         QTableWidgetItem *itemAZS = new QTableWidgetItem(QString::number(m_listFuelName.at(i).terminalID())+" "+m_listFuelName.at(i).azsName());
         itemAZS->setTextAlignment(Qt::AlignHCenter);
         itemAZS->setBackground(QColor("#aaff7f"));
+        //Объединяем ячейки
         ui->tableWidgetView->setSpan(row,0,1,4);
         ui->tableWidgetView->setItem(row,0,itemAZS);
         for(int j = 0; j<m_listFuelName.at(i).listFuels().size();++j){
+            //Заполняем строки наименованиями
             int rowName = ui->tableWidgetView->rowCount();
             ui->tableWidgetView->insertRow(rowName);
             ui->tableWidgetView->setItem(rowName,0, new QTableWidgetItem(QString::number(m_listFuelName.at(i).listFuels().at(j).tankID())));
@@ -190,4 +217,70 @@ void ViewFuelNameDialog::showFuelName()
     }
     ui->tableWidgetView->verticalHeader()->setDefaultSectionSize(ui->tableWidgetView->verticalHeader()->minimumSectionSize());
     ui->groupBoxView->show();
+}
+
+void ViewFuelNameDialog::exportXlsx()
+{
+    Document xlsx;          // Будущий документ
+    Format format;          // Формат обычных ячеек
+    Format formatMerge;     // Формат объединенной ячейки
+    Format formatTitle;     // Формат заголовка
+
+    //Задаем параметры форматирования
+    format.setHorizontalAlignment(Format::AlignHCenter);
+    format.setVerticalAlignment(Format::AlignVCenter);
+    format.setBorderStyle(Format::BorderThin);
+
+    formatMerge.setPatternBackgroundColor(QColor("#aaff7f"));
+    formatMerge.setHorizontalAlignment(Format::AlignHCenter);
+    formatMerge.setVerticalAlignment(Format::AlignVCenter);
+    formatMerge.setBorderStyle(Format::BorderThin);
+
+    formatTitle.setHorizontalAlignment(Format::AlignHCenter);
+    formatTitle.setVerticalAlignment(Format::AlignVCenter);
+    formatTitle.setFontBold(true);
+    formatTitle.setBorderStyle(Format::BorderThin);
+    formatTitle.setPatternBackgroundColor(QColor("#A9BCF5"));
+
+    //Необходимо отметить что нумерация строк и столбцов в xlsx документе начинается с 1
+    //Устанавливаем ширину столбцов
+    xlsx.setColumnWidth(1,10);
+    xlsx.setColumnWidth(4,30);
+
+    int columnCount = headers.size();
+    int colAzs = m_listFuelName.size();
+    //Заполняем заголовки
+    for(int i =0; i<columnCount; ++i){
+        xlsx.write(1,i+1, headers.at(i),formatTitle);
+    }
+
+    //Табличная часть
+    int rowX=2;
+    for(int i=0; i<colAzs; ++i){
+        xlsx.write(rowX,1, QString::number(m_listFuelName.at(i).terminalID())+" "+m_listFuelName.at(i).azsName());
+        CellRange cellRange = CellRange(rowX,1,rowX,columnCount);
+        xlsx.mergeCells(cellRange, formatMerge);
+        for(int j = 0; j<m_listFuelName.at(i).listFuels().size(); ++j) {
+            rowX++;
+            xlsx.write(rowX,1,m_listFuelName.at(i).listFuels().at(j).tankID(),format);
+            xlsx.write(rowX,2,m_listFuelName.at(i).listFuels().at(j).fuelID(),format);
+            xlsx.write(rowX,3,m_listFuelName.at(i).listFuels().at(j).shortName(),format);
+            xlsx.write(rowX,4,m_listFuelName.at(i).listFuels().at(j).name(),format);
+        }
+    }
+    QFile xlsxFile;
+    //Создаем абсолютный путь к файлу
+    xlsxFile.setFileName(QApplication::applicationDirPath()+"/"+"FuelName.xlsx");
+    xlsx.saveAs(xlsxFile.fileName()); // Сохраняем документ
+#ifdef Q_OS_WIN
+    QDesktopServices::openUrl(QUrl("file:///"+xlsxFile.fileName(), QUrl::TolerantMode));
+#else
+    QDesktopServices::openUrl(QUrl("file://"+xlsxFile.fileName(), QUrl::TolerantMode));
+#endif
+    this->reject();
+}
+
+void ViewFuelNameDialog::on_buttonBox_rejected()
+{
+    this->reject();
 }
