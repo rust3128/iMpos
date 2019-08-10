@@ -32,6 +32,10 @@ private slots:
 
     void on_buttonBoxView_accepted();
 
+    void on_groupBoxDT_clicked();
+
+    void on_groupBoxVIP_clicked();
+
 private:
     void createUI();                            //Создание начального интерфейса
     void fillingTerminals(int terminalID);      //Зполнение TableWidget выбранным терминалом

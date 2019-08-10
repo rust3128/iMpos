@@ -223,3 +223,18 @@ void FuelNameDialog::on_buttonBoxView_accepted()
     ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,currentTask, this);
     viewFnDlg->exec();
 }
+
+
+
+void FuelNameDialog::on_groupBoxDT_clicked()
+{
+    ui->checkBoxDTS->setChecked(false);
+    ui->checkBoxDTW->setChecked(false);
+
+}
+
+void FuelNameDialog::on_groupBoxVIP_clicked()
+{
+    ui->checkBoxVIPS->setChecked(false);
+    ui->checkBoxVIPW->setChecked(false);
+}

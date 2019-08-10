@@ -31,5 +31,7 @@
         <file>Image/database.png</file>
         <file>Image/selectfuel.png</file>
         <file>Image/error.png</file>
+        <file>Image/checked-checkbox.png</file>
+        <file>Image/unchecked-checkbox.png</file>
     </qresource>
 </RCC>

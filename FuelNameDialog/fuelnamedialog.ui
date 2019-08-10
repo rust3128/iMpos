@@ -232,10 +232,20 @@
                 subcontrol-position: top left;
                 left: 20px;
                 padding: 0 10px;
-                }</string>
+                }
+QGroupBox::indicator { width: 24px; height: 24px; }
+QGroupBox::indicator:unchecked {
+    image: url(:/Image/unchecked-checkbox.png);
+}
+QGroupBox::indicator:checked {
+    image: url(:/Image/checked-checkbox.png);
+}</string>
      </property>
      <property name="title">
       <string>Действия</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -247,7 +257,7 @@
       <item row="0" column="0">
        <widget class="QTabWidget" name="tabWidgetView">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="iconSize">
          <size>
@@ -441,6 +451,16 @@ QRadioButton::indicator::checked
                     <pointsize>12</pointsize>
                    </font>
                   </property>
+                  <property name="styleSheet">
+                   <string notr="true">QCheckBox::indicator::unchecked
+{
+	image: url(:/Image/unchecked.png);
+}
+QCheckBox::indicator::checked
+{
+	image: url(:/Image/checked.png);
+}</string>
+                  </property>
                   <property name="text">
                    <string>ДП-Л-Евро5-В0</string>
                   </property>
@@ -462,6 +482,16 @@ QRadioButton::indicator::checked
                    <font>
                     <pointsize>12</pointsize>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QCheckBox::indicator::unchecked
+{
+	image: url(:/Image/unchecked.png);
+}
+QCheckBox::indicator::checked
+{
+	image: url(:/Image/checked.png);
+}</string>
                   </property>
                   <property name="text">
                    <string>ДП-З-Евро5-В0</string>
@@ -530,6 +560,16 @@ QRadioButton::indicator::checked
                     <pointsize>12</pointsize>
                    </font>
                   </property>
+                  <property name="styleSheet">
+                   <string notr="true">QCheckBox::indicator::unchecked
+{
+	image: url(:/Image/unchecked.png);
+}
+QCheckBox::indicator::checked
+{
+	image: url(:/Image/checked.png);
+}</string>
+                  </property>
                   <property name="text">
                    <string>VP ДП-Л-Евро5-В0</string>
                   </property>
@@ -551,6 +591,16 @@ QRadioButton::indicator::checked
                    <font>
                     <pointsize>12</pointsize>
                    </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QCheckBox::indicator::unchecked
+{
+	image: url(:/Image/unchecked.png);
+}
+QCheckBox::indicator::checked
+{
+	image: url(:/Image/checked.png);
+}</string>
                   </property>
                   <property name="text">
                    <string>VP ДП-З-Евро5-В0</string>
