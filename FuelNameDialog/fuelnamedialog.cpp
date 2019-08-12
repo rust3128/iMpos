@@ -6,6 +6,7 @@
 #include "viewfuelnamedialog.h"
 #include "tasklist.h"
 #include "LoggingCategories/loggingcategories.h"
+#include "SQLHighlighter/SQLHighlighter.h"
 #include <QGroupBox>
 #include <QDate>
 #include <QMessageBox>
@@ -15,7 +16,7 @@ FuelNameDialog::FuelNameDialog(QWidget *parent) :
     ui(new Ui::FuelNameDialog)
 {
     ui->setupUi(this);
-
+    listSQL.clear();
     createUI();
 
 }
@@ -42,6 +43,7 @@ void FuelNameDialog::createUI()
     //Устанавливаем текущую дату и запрещаем выделять дату меньше текущей
     ui->dateEdit->setDate(QDate::currentDate());
     ui->dateEdit->setMinimumDate(QDate::currentDate());
+    ui->textEditSQL->hide();
 
     //Настраиваем внешний вид TableWidget
     ui->tableWidgetTerm->setColumnCount(3);
@@ -220,7 +222,7 @@ void FuelNameDialog::on_buttonBoxView_accepted()
     //Определяем дальнейший алгоритм работы в зависимости от выбранного checkBox
     int currentTask = (ui->radioButtonReport->isChecked()) ? VIEW_NAME : XLSX_EXPORT;
     //Диалог для отображения результатов и прогресса получения данных с АЗС
-    ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,currentTask, this);
+    ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,currentTask,listSQL, this);
     viewFnDlg->exec();
 }
 
@@ -237,4 +239,97 @@ void FuelNameDialog::on_groupBoxVIP_clicked()
 {
     ui->checkBoxVIPS->setChecked(false);
     ui->checkBoxVIPW->setChecked(false);
+}
+
+void FuelNameDialog::on_checkBoxDTS_clicked(bool checked)
+{
+    ui->checkBoxDTW->setChecked(!checked);
+}
+
+void FuelNameDialog::on_checkBoxDTW_clicked(bool checked)
+{
+    ui->checkBoxDTS->setChecked(!checked);
+}
+
+void FuelNameDialog::on_checkBoxVIPS_clicked(bool checked)
+{
+    ui->checkBoxVIPW->setChecked(!checked);
+}
+
+void FuelNameDialog::on_checkBoxVIPW_clicked(bool checked)
+{
+    ui->checkBoxVIPS->setChecked(!checked);
+}
+
+
+void FuelNameDialog::on_pushButtonCreateScript_clicked()
+{
+    if(ui->checkBoxDTS->isChecked() || ui->checkBoxDTW->isChecked() || ui->checkBoxVIPS->isChecked() || ui->checkBoxVIPW->isChecked())
+        ui->textEditSQL->show();
+    else {
+        QMessageBox::critical(this, "Ошибка", "Не указан ни один вид топлива!");
+        return;
+    }
+    listSQL.clear();
+    QString dtName="";
+
+    if(ui->checkBoxDTS->isChecked()) {
+        dtName = ui->checkBoxDTS->text();
+    } else {
+        if(ui->checkBoxDTW->isChecked()){
+            dtName=ui->checkBoxDTW->text();
+        }
+    }
+
+    QString VPName="";
+
+    if(ui->checkBoxVIPS->isChecked()) {
+        VPName = ui->checkBoxVIPS->text();
+    } else {
+        if(ui->checkBoxVIPW->isChecked()){
+            VPName=ui->checkBoxVIPW->text();
+        }
+    }
+
+
+    infoMessage = ui->dateEdit->date().toString("dd.MM.yyyy") + " будут устанвлены следующие наименования\n" + dtName + "\n" + VPName+".";
+
+
+    if(dtName.size()>0)
+        listSQL << "UPDATE FUELS SET NAME = '"+dtName+"' WHERE FUEL_ID = 7;";
+    if(VPName.size()>0)
+        listSQL << "UPDATE FUELS SET NAME = '"+VPName+"' WHERE FUEL_ID = 8;";
+    listSQL << "UPDATE MIGRATEOPTIONS SET SVALUE = '"+ui->dateEdit->date().toString("yyyyMMdd")+"' WHERE MIGRATEOPTION_ID = 3400;";
+    listSQL << "UPDATE MIGRATEOPTIONS SET SVALUE = '6' WHERE MIGRATEOPTION_ID = 3410;";
+    listSQL << "commit;";
+    ui->textEditSQL->clear();
+    new SQLHighlighter(ui->textEditSQL->document());
+    ui->textEditSQL->append(listSQL.join("\n"));
+}
+
+void FuelNameDialog::on_buttonBoxEdit_rejected()
+{
+    ui->groupBoxDT->setChecked(false);
+    ui->groupBoxVIP->setChecked(false);
+    ui->groupBoxActions->setChecked(false);
+    ui->checkBoxVIPS->setChecked(false);
+    ui->checkBoxVIPW->setChecked(false);
+    ui->checkBoxDTS->setChecked(false);
+    ui->checkBoxDTW->setChecked(false);
+    ui->textEditSQL->clear();
+    ui->groupBoxFuel->setEnabled(true);
+}
+
+void FuelNameDialog::on_buttonBoxEdit_accepted()
+{
+    if(listSQL.size() == 0) return;
+    int ret = QMessageBox::question(this, "Подтвердите действие",
+                                   "На выбранных АЗС будут произведены следующие действия:\n"+infoMessage,
+                                   QMessageBox::Ok | QMessageBox::Cancel);
+    if(ret == QMessageBox::Ok ){
+        //Диалог для отображения результатов и прогресса получения данных с АЗС
+        ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,UPDATE_FUEL_NAME,listSQL, this);
+        viewFnDlg->exec();
+
+    }
 }

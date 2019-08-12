@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Наименования видов топлива</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_7" columnstretch="1,0">
+  <layout class="QGridLayout" name="gridLayout_7" columnstretch="0,0">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBoxFuel">
      <property name="styleSheet">
@@ -388,11 +388,33 @@ QRadioButton::indicator::checked
           <string>Изменение наименований</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_6">
+          <item row="3" column="0">
+           <widget class="QDialogButtonBox" name="buttonBoxEdit">
+            <property name="standardButtons">
+             <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QTextEdit" name="textEditSQL">
+            <property name="lineWrapMode">
+             <enum>QTextEdit::NoWrap</enum>
+            </property>
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QFrame" name="frame">
             <layout class="QGridLayout" name="gridLayout_5">
              <item row="0" column="0">
               <widget class="QLabel" name="label">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Дата изменения:</string>
                </property>
@@ -400,6 +422,11 @@ QRadioButton::indicator::checked
              </item>
              <item row="0" column="1">
               <widget class="QDateEdit" name="dateEdit">
+               <property name="font">
+                <font>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="calendarPopup">
                 <bool>true</bool>
                </property>
@@ -624,7 +651,7 @@ QCheckBox::indicator::checked
            </widget>
           </item>
           <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton">
+           <widget class="QPushButton" name="pushButtonCreateScript">
             <property name="text">
              <string>Создать скрипт</string>
             </property>
@@ -637,16 +664,6 @@ QCheckBox::indicator::checked
               <width>32</width>
               <height>32</height>
              </size>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QPlainTextEdit" name="plainTextEdit"/>
-          </item>
-          <item row="3" column="0">
-           <widget class="QDialogButtonBox" name="buttonBoxEdit">
-            <property name="standardButtons">
-             <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
             </property>
            </widget>
           </item>

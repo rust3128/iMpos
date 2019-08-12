@@ -3,6 +3,7 @@
 #include "passconv.h"
 #include "tasklist.h"
 #include "getfuelnameclass.h"
+#include "executesqlclass.h"
 #include "LoggingCategories/loggingcategories.h"
 #include <QThread>
 #include <QFile>
@@ -29,11 +30,12 @@ static bool compare(const AzsFuelName& first, const AzsFuelName& second)
 }
 
 
-ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, int currentTask,  QWidget *parent) :
+ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, int currentTask, QStringList ls,  QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ViewFuelNameDialog),
     m_terminalSList(listTerm),
-    m_currentTask(currentTask)
+    m_currentTask(currentTask),
+    m_listSQL(ls)
 {
     ui->setupUi(this);
 
@@ -41,13 +43,20 @@ ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, int currentTask,  Q
     statusText.insert(CONNECT_TO_DATABASE,"Подключение к базе данных АЗС...");
     statusText.insert(SELECT_FUEL_NAME,"Получение списка видов топлива....");
     statusText.insert(ERROR_OPEN_DATABASE,"Ошибка открытия базы данных АЗС!");
+    statusText.insert(EXECUTE_SQL, "Обновление наименования топлива...");
     statusText.insert(ERROR_GET_FUEL_NAME, "Ошибка получения списка наименований топлива!");
+    statusText.insert(ERROR_EXECUTE_SQL,"Ошибка выполнения запроса");
     statusText.insert(FINISHED,"Готово!");
+
 
     headers <<"Резервуар"<<"Код"<<"Краткое"<<"Полное";
     createUI();
     getConnectionsList();
-    fuelNameList();
+
+    if(currentTask == EXECUTE_SQL)
+        executeSQL();
+    else
+        fuelNameList();
 }
 
 ViewFuelNameDialog::~ViewFuelNameDialog()
@@ -137,8 +146,18 @@ void ViewFuelNameDialog::slotGetStatusThread(statusThread status)
                  ui->tableWidget->item(i,1)->setBackground(QBrush("#D7DF01"));
                  ui->tableWidget->item(i,1)->setIcon(QIcon(":/Image/selectfuel.png"));
                 break;
+            case EXECUTE_SQL:
+                 ui->tableWidget->item(i,1)->setBackground(QBrush("#D7DF01"));
+                 ui->tableWidget->item(i,1)->setIcon(QIcon(":/Image/selectfuel.png"));
+                break;
             case ERROR_OPEN_DATABASE:
                 ui->tableWidget->item(i,1)->setBackground(QBrush("#FE2E2E"));
+                ui->tableWidget->item(i,1)->setIcon(QIcon(":/Image/error.png"));
+                ui->progressBarGetFuel->setValue(ui->progressBarGetFuel->value()+1);
+                colError++;
+               break;
+            case ERROR_EXECUTE_SQL:
+                ui->tableWidget->item(i,1)->setBackground(QBrush("#DF01A5"));
                 ui->tableWidget->item(i,1)->setIcon(QIcon(":/Image/error.png"));
                 ui->progressBarGetFuel->setValue(ui->progressBarGetFuel->value()+1);
                 colError++;
@@ -164,8 +183,6 @@ void ViewFuelNameDialog::slotGetStatusThread(statusThread status)
     //Проверяем что произошло получение информации от всех АЗС указанных в списке
     //И в зависимости от типа задачи запускаем соответствующую функцию
     if(ui->progressBarGetFuel->value() == m_connectionsList.size()){
-        //Сортируем список азс определив статическую функцию compare
-        std::sort(m_listFuelName.begin(), m_listFuelName.end(),compare);
         switch (m_currentTask) {
         case VIEW_NAME:
             showFuelName();
@@ -184,9 +201,12 @@ void ViewFuelNameDialog::slotGetAzsFuelName(AzsFuelName azsFuelname)
     //Добавляем полученный список наименований
     m_listFuelName.append(azsFuelname);
 }
+
+
 //Отображение наименований
 void ViewFuelNameDialog::showFuelName()
 {
+    std::sort(m_listFuelName.begin(), m_listFuelName.end(),compare);
     ui->groupBoxProgress->hide();
     ui->tableWidgetView->setColumnCount(4);
     ui->tableWidgetView->setHorizontalHeaderLabels(headers);
@@ -221,6 +241,8 @@ void ViewFuelNameDialog::showFuelName()
 
 void ViewFuelNameDialog::exportXlsx()
 {
+    std::sort(m_listFuelName.begin(), m_listFuelName.end(),compare);
+
     Document xlsx;          // Будущий документ
     Format format;          // Формат обычных ячеек
     Format formatMerge;     // Формат объединенной ячейки
@@ -278,6 +300,32 @@ void ViewFuelNameDialog::exportXlsx()
     QDesktopServices::openUrl(QUrl("file://"+xlsxFile.fileName(), QUrl::TolerantMode));
 #endif
     this->reject();
+}
+
+void ViewFuelNameDialog::executeSQL()
+{
+    //Количетсво обрабатываемх АЗС
+    int _azsCount = m_connectionsList.size();
+    colError=0;
+    ui->progressBarGetFuel->setRange(0, _azsCount);
+    ui->progressBarGetFuel->setValue(0);
+    ui->progressBarGetFuel->setFormat("Обработано %v из %m. Ошибок "+QString::number(colError));
+
+    for(int i=0; i<_azsCount; i++){
+        //Создаем объект класса получения наиметований и потока
+        ExecuteSqlClass *execSQL = new ExecuteSqlClass(m_connectionsList.at(i),m_listSQL,this);
+        QThread *thread = new QThread();
+        //помещаем класс в поток.
+        execSQL->moveToThread(thread);
+        //Связываем сигналы и слоты
+        connect(thread,&QThread::started, execSQL, &ExecuteSqlClass::executeSQL);
+        connect(execSQL,&ExecuteSqlClass::signalSendStatus,this,&ViewFuelNameDialog::slotGetStatusThread,Qt::UniqueConnection);
+        connect(execSQL,&ExecuteSqlClass::finisExecute, execSQL, &ExecuteSqlClass::deleteLater);
+        connect(execSQL,&ExecuteSqlClass::finisExecute, thread, &QThread::quit);
+        connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+        thread->start();
+    }
+
 }
 
 void ViewFuelNameDialog::on_buttonBox_rejected()

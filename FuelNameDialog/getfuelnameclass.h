@@ -11,7 +11,7 @@ class GetFuelNameClass : public QObject
     Q_OBJECT
 public:
     explicit GetFuelNameClass(QStringList connList, QObject *parent = nullptr);
-
+    ~GetFuelNameClass();
 signals:
     void finisGetList();                           //Получение наименований завершено
     void signalSendStatus(statusThread);        //Текущий статус получеия наименований
@@ -19,6 +19,7 @@ signals:
 public slots:
     void getFuelList();                         //Получение наименований топлива
 private:
+
     QStringList m_connList;                     //Параменты подключения к базе данный АЗС
     statusThread currentStatus;                 //Текущий статус выполнения
 };

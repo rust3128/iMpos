@@ -9,13 +9,17 @@ GetFuelNameClass::GetFuelNameClass(QStringList connList, QObject *parent) :
     qRegisterMetaType<st>("st");
 }
 
+GetFuelNameClass::~GetFuelNameClass()
+{
+    QSqlDatabase::removeDatabase(m_connList[0]);
+}
+
 void GetFuelNameClass::getFuelList()
 {
     //Устанавливаем текущий статус выполнения
     currentStatus.terminalId=m_connList[0].toInt();
     currentStatus.currentStatus=CONNECT_TO_DATABASE;
     emit signalSendStatus(currentStatus);
-
     //Cоздаем подключение к базе данных АЗС
     QSqlDatabase db = QSqlDatabase::addDatabase("QIBASE", m_connList[0]);
 
@@ -62,15 +66,13 @@ void GetFuelNameClass::getFuelList()
         _fuelName.insertFuelName(q.value(0).toInt(),q.value(1).toInt(),q.value(2).toString(),q.value(3).toString());
     }
     q.finish();
-    q.clear();
     q.prepare("select trim(t.NAME) from terminals t WHERE t.TERMINAL_ID = :terminalID");
     q.bindValue(":terminalID", currentStatus.terminalId);
     q.exec();
     q.next();
-    q.first();
     _fuelName.setAzsName(q.value(0).toString());
+    q.finish();
     currentStatus.currentStatus=FINISHED;
-
     emit signalSendAzsFuelName(_fuelName);
     emit signalSendStatus(currentStatus);
     emit finisGetList();

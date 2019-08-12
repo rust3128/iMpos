@@ -39,12 +39,14 @@ SOURCES += \
         FuelNameDialog/addregionterminalsdialog.cpp \
         FuelNameDialog/addterminaldialog.cpp \
         FuelNameDialog/azsfuelname.cpp \
+        FuelNameDialog/executesqlclass.cpp \
         FuelNameDialog/fuelname.cpp \
         FuelNameDialog/fuelnamedialog.cpp \
         FuelNameDialog/getfuelnameclass.cpp \
         FuelNameDialog/viewfuelnamedialog.cpp \
         LoggingCategories/loggingcategories.cpp \
         LoginDialog/logindialog.cpp \
+        SQLHighlighter/SQLHighlighter.cpp \
         SettingsDialog/settingsdialog.cpp \
         UsersDialog/usersdialog.cpp \
         main.cpp \
@@ -59,6 +61,7 @@ HEADERS += \
         FuelNameDialog/addregionterminalsdialog.h \
         FuelNameDialog/addterminaldialog.h \
         FuelNameDialog/azsfuelname.h \
+        FuelNameDialog/executesqlclass.h \
         FuelNameDialog/fuelname.h \
         FuelNameDialog/fuelnamedialog.h \
         FuelNameDialog/getfuelnameclass.h \
@@ -67,6 +70,7 @@ HEADERS += \
         FuelNameDialog/viewfuelnamedialog.h \
         LoggingCategories/loggingcategories.h \
         LoginDialog/logindialog.h \
+        SQLHighlighter/SQLHighlighter.h \
         SettingsDialog/settingsdialog.h \
         UsersDialog/usersdialog.h \
         mainwindow.h \

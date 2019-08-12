@@ -16,11 +16,11 @@ class ViewFuelNameDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ViewFuelNameDialog(QList<int> *listTerm, int currentTask, QWidget *parent = nullptr);
+    explicit ViewFuelNameDialog(QList<int> *listTerm, int currentTask, QStringList ls, QWidget *parent = nullptr);
     ~ViewFuelNameDialog();
 
-private slots:
 
+private slots:
     void on_buttonBox_rejected();
 
 public slots:
@@ -32,7 +32,7 @@ private:
     void fuelNameList();                       //Наименования видов топлива
     void showFuelName();                       //Отображение информации о наименованиях
     void exportXlsx();                         //Экспорт результатов в xlsx файл
-
+    void executeSQL();                     //Обновление наименований топлива
 private:
     Ui::ViewFuelNameDialog *ui;
     QList<int> *m_terminalSList;              //Список терминалов с которыми будем работать
@@ -42,6 +42,7 @@ private:
     int colError;                             //Количество неудачных попыток
     int m_currentTask;                        //Текущая задача
     QStringList headers;                      //Заголовки столбцов
+    QStringList m_listSQL;
 };
 
 #endif // VIEWFUELNAMEDIALOG_H
