@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "DataBases/databasesettings.h"
+#include "LoggingCategories/loggingcategories.h"
 #include "SettingsDialog/settingsdialog.h"
 #include "UsersDialog/usersdialog.h"
 #include "FuelNameDialog/fuelnamedialog.h"
@@ -35,12 +36,16 @@ void MainWindow::createUI()
            "INNER JOIN options o ON u.user_id = o.value "
            "WHERE o.option_id = 1020");
     q.next();
+    int userID = q.value(0).toInt();
     labelUsers->setText("Пользователь: "+q.value(1).toString());
-    if(q.value(0).toInt() != 1){
+    if(userID != 1){
         ui->actionUsers->setEnabled(false);
         ui->actionSettings->setEnabled(false);
     }
-
+    q.finish();
+    q.prepare("INSERT INTO logs (`date`, `userID`, `logtypeID`) VALUES (datetime('now','localtime'), :userID, 1)");
+    q.bindValue(":userID", userID);
+    if(!q.exec()) qCritical(logCritical()) << "Не удалось записать данные о входе пользователя." << q.lastError().text();
     //Получаем данные о текущем подключении
     QSqlDatabase dbcentr = QSqlDatabase::database();
     labelConnections->setText("База данных:"+dbcentr.hostName()+":"+dbcentr.databaseName());

@@ -5,6 +5,7 @@
 #include "addregionsdialog.h"
 #include "viewfuelnamedialog.h"
 #include "tasklist.h"
+#include "DataBases/options.h"
 #include "LoggingCategories/loggingcategories.h"
 #include "SQLHighlighter/SQLHighlighter.h"
 #include <QGroupBox>
@@ -299,8 +300,9 @@ void FuelNameDialog::on_pushButtonCreateScript_clicked()
         listSQL << "UPDATE FUELS SET NAME = '"+dtName+"' WHERE FUEL_ID = 7;";
     if(VPName.size()>0)
         listSQL << "UPDATE FUELS SET NAME = '"+VPName+"' WHERE FUEL_ID = 8;";
-    listSQL << "UPDATE MIGRATEOPTIONS SET SVALUE = '"+ui->dateEdit->date().toString("yyyyMMdd")+"' WHERE MIGRATEOPTION_ID = 3400;";
-    listSQL << "UPDATE MIGRATEOPTIONS SET SVALUE = '6' WHERE MIGRATEOPTION_ID = 3410;";
+
+    listSQL << "UPDATE OR INSERT INTO MIGRATEOPTIONS (MIGRATEOPTION_ID, SVALUE, VTYPE) VALUES (3400, '"+ui->dateEdit->date().toString("yyyyMMdd")+"', 'D') MATCHING (MIGRATEOPTION_ID)";
+    listSQL << "UPDATE OR INSERT INTO MIGRATEOPTIONS (MIGRATEOPTION_ID, SVALUE, VTYPE) VALUES (3410, '6', 'I') MATCHING (MIGRATEOPTION_ID)";
     listSQL << "commit;";
     ui->textEditSQL->clear();
     new SQLHighlighter(ui->textEditSQL->document());
@@ -329,6 +331,18 @@ void FuelNameDialog::on_buttonBoxEdit_accepted()
     if(ret == QMessageBox::Ok ){
         //Диалог для отображения результатов и прогресса получения данных с АЗС
         ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,UPDATE_FUEL_NAME,listSQL, this);
+        QSqlDatabase db = QSqlDatabase::database("options");
+        QSqlQuery q = QSqlQuery(db);
+        Options opt;
+        QString terminals;
+        foreach(int term, listTerminals){
+            terminals += QString::number(term)+",";
+        }
+        terminals.resize(terminals.size()-1);
+        q.prepare("INSERT INTO logs (`date`, `userID`, `logtypeID`,`info`) VALUES (datetime('now','localtime'), :userID, 2, :info)");
+        q.bindValue(":userID", opt.getOption(1020).toInt());
+        q.bindValue(":info", terminals);
+        if(!q.exec()) qCritical(logCritical()) << "Не удалось записать данные об изменении наменований" << q.lastError().text();
         viewFnDlg->exec();
 
     }

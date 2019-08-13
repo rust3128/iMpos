@@ -55,7 +55,16 @@ bool DataBases::connectOptions()
             //Создаем таблицу пользователей приложения и добавляем в нее запись
             listSQL << "CREATE TABLE `users` ( `user_id` INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, `fio` TEXT NOT NULL, `password` TEXT, `isactive` TEXT NOT NULL DEFAULT 'true' )";
             listSQL << "INSERT INTO `users`(`fio`,`password`) VALUES ('Администратор','masterkey')";
-
+            listSQL << "CREATE TABLE `logs` ( "
+                       "`logID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+                       "`date`	TEXT NOT NULL, "
+                       "`userID`	INTEGER NOT NULL, "
+                       "`logtypeID`	INTEGER NOT NULL, "
+                       "`info`	TEXT)";
+            listSQL << "CREATE TABLE IF NOT EXISTS `logtype` ( "
+                       "`logtipeID`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
+                       "`logtext`	TEXT NOT NULL)";
+            listSQL << "INSERT INTO `logtype` (logtext) VALUES ('Вход в программу'),  ('Изменил наименование топлива')";
             //Выполняем запросы
             for (int i =0;i<listSQL.size();++i) {
                 if(!q.exec(listSQL.at(i)))

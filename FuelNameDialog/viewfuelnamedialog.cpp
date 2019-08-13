@@ -53,8 +53,10 @@ ViewFuelNameDialog::ViewFuelNameDialog(QList<int> *listTerm, int currentTask, QS
     createUI();
     getConnectionsList();
 
-    if(currentTask == EXECUTE_SQL)
+    if(currentTask == EXECUTE_SQL){
+        this->setWindowTitle("Изменение наименований");
         executeSQL();
+    }
     else
         fuelNameList();
 }
@@ -313,7 +315,7 @@ void ViewFuelNameDialog::executeSQL()
 
     for(int i=0; i<_azsCount; i++){
         //Создаем объект класса получения наиметований и потока
-        ExecuteSqlClass *execSQL = new ExecuteSqlClass(m_connectionsList.at(i),m_listSQL,this);
+        ExecuteSqlClass *execSQL = new ExecuteSqlClass(m_connectionsList.at(i),m_listSQL);
         QThread *thread = new QThread();
         //помещаем класс в поток.
         execSQL->moveToThread(thread);

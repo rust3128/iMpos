@@ -30,6 +30,7 @@ void ExecuteSqlClass::executeSQL()
     db.setDatabaseName(m_connList[2]);
     db.setUserName("SYSDBA");
     db.setPassword(m_connList[3]);
+    db.setConnectOptions("ISC_DPB_SQL_ROLE_NAME=PUBLISH");
 
     //Подключаемся к базе данных АЗС
     if(!db.open()){
@@ -49,14 +50,16 @@ void ExecuteSqlClass::executeSQL()
     //Выполняем запросы
     QSqlQuery q = QSqlQuery(db);
     foreach(const QString &strSQL, m_listSQL ) {
-        if(!q.exec(strSQL))
+        if(!q.exec(strSQL)){
             qCritical(logCritical()) << Q_FUNC_INFO << "Не удалось выполнить запрос." << strSQL << "На базе АЗС" << m_connList[0] << q.lastError().text();
-        //Меняем статус выполнения и отправляем его в главный поток
-        m_currStatus.currentStatus=ERROR_EXECUTE_SQL;
-        emit signalSendStatus(m_currStatus);
-        emit finisExecute();
-        return;
+            //Меняем статус выполнения и отправляем его в главный поток
+            m_currStatus.currentStatus=ERROR_EXECUTE_SQL;
+            emit signalSendStatus(m_currStatus);
+            emit finisExecute();
+            return;
+        }
     }
+
     m_currStatus.currentStatus=FINISHED;
     emit signalSendStatus(m_currStatus);
     emit finisExecute();
