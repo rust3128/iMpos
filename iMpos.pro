@@ -28,6 +28,8 @@ QXLSX_HEADERPATH=./header/  # current QXlsx header path is ./header/
 QXLSX_SOURCEPATH=./source/  # current QXlsx source path is ./source/
 include(./QXlsx.pri)
 
+win32: RC_ICONS = $$PWD/Image/logo_Icon.ico
+
 CONFIG += c++11
 
 SOURCES += \

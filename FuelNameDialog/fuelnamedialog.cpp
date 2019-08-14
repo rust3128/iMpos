@@ -228,12 +228,11 @@ void FuelNameDialog::on_buttonBoxView_accepted()
 }
 
 
-
+//Настраиваем поведение GroupBox
 void FuelNameDialog::on_groupBoxDT_clicked()
 {
     ui->checkBoxDTS->setChecked(false);
     ui->checkBoxDTW->setChecked(false);
-
 }
 
 void FuelNameDialog::on_groupBoxVIP_clicked()
@@ -242,6 +241,9 @@ void FuelNameDialog::on_groupBoxVIP_clicked()
     ui->checkBoxVIPW->setChecked(false);
 }
 
+//Долго возился со сбросм всех RadioButton в группе
+//Решил просто использовать CheckBox и имитировать поведение
+//Поменяв внешний вид CheckBox
 void FuelNameDialog::on_checkBoxDTS_clicked(bool checked)
 {
     ui->checkBoxDTW->setChecked(!checked);
@@ -262,7 +264,7 @@ void FuelNameDialog::on_checkBoxVIPW_clicked(bool checked)
     ui->checkBoxVIPS->setChecked(!checked);
 }
 
-
+//Генирируем скрипт для измененич наименований
 void FuelNameDialog::on_pushButtonCreateScript_clicked()
 {
     if(ui->checkBoxDTS->isChecked() || ui->checkBoxDTW->isChecked() || ui->checkBoxVIPS->isChecked() || ui->checkBoxVIPW->isChecked())
@@ -273,7 +275,6 @@ void FuelNameDialog::on_pushButtonCreateScript_clicked()
     }
     listSQL.clear();
     QString dtName="";
-
     if(ui->checkBoxDTS->isChecked()) {
         dtName = ui->checkBoxDTS->text();
     } else {
@@ -281,9 +282,7 @@ void FuelNameDialog::on_pushButtonCreateScript_clicked()
             dtName=ui->checkBoxDTW->text();
         }
     }
-
     QString VPName="";
-
     if(ui->checkBoxVIPS->isChecked()) {
         VPName = ui->checkBoxVIPS->text();
     } else {
@@ -291,24 +290,20 @@ void FuelNameDialog::on_pushButtonCreateScript_clicked()
             VPName=ui->checkBoxVIPW->text();
         }
     }
-
-
     infoMessage = ui->dateEdit->date().toString("dd.MM.yyyy") + " будут устанвлены следующие наименования\n" + dtName + "\n" + VPName+".";
-
-
     if(dtName.size()>0)
         listSQL << "UPDATE FUELS SET NAME = '"+dtName+"' WHERE FUEL_ID = 7;";
     if(VPName.size()>0)
         listSQL << "UPDATE FUELS SET NAME = '"+VPName+"' WHERE FUEL_ID = 8;";
-
     listSQL << "UPDATE OR INSERT INTO MIGRATEOPTIONS (MIGRATEOPTION_ID, SVALUE, VTYPE) VALUES (3400, '"+ui->dateEdit->date().toString("yyyyMMdd")+"', 'D') MATCHING (MIGRATEOPTION_ID)";
     listSQL << "UPDATE OR INSERT INTO MIGRATEOPTIONS (MIGRATEOPTION_ID, SVALUE, VTYPE) VALUES (3410, '6', 'I') MATCHING (MIGRATEOPTION_ID)";
     listSQL << "commit;";
     ui->textEditSQL->clear();
+//Подстветка синтаксиса SQL
     new SQLHighlighter(ui->textEditSQL->document());
     ui->textEditSQL->append(listSQL.join("\n"));
 }
-
+//Нажали отмена
 void FuelNameDialog::on_buttonBoxEdit_rejected()
 {
     ui->groupBoxDT->setChecked(false);
@@ -320,17 +315,20 @@ void FuelNameDialog::on_buttonBoxEdit_rejected()
     ui->checkBoxDTW->setChecked(false);
     ui->textEditSQL->clear();
     ui->groupBoxFuel->setEnabled(true);
+    ui->textEditSQL->hide();
 }
 
 void FuelNameDialog::on_buttonBoxEdit_accepted()
 {
     if(listSQL.size() == 0) return;
+    //Еще раз запрашиваем у пользователя подтверждение для будущих измененеий
     int ret = QMessageBox::question(this, "Подтвердите действие",
                                    "На выбранных АЗС будут произведены следующие действия:\n"+infoMessage,
                                    QMessageBox::Ok | QMessageBox::Cancel);
     if(ret == QMessageBox::Ok ){
         //Диалог для отображения результатов и прогресса получения данных с АЗС
         ViewFuelNameDialog *viewFnDlg = new ViewFuelNameDialog(&listTerminals,UPDATE_FUEL_NAME,listSQL, this);
+        //Подготваливаем запись для талицы LOGS
         QSqlDatabase db = QSqlDatabase::database("options");
         QSqlQuery q = QSqlQuery(db);
         Options opt;
@@ -344,6 +342,5 @@ void FuelNameDialog::on_buttonBoxEdit_accepted()
         q.bindValue(":info", terminals);
         if(!q.exec()) qCritical(logCritical()) << "Не удалось записать данные об изменении наменований" << q.lastError().text();
         viewFnDlg->exec();
-
     }
 }

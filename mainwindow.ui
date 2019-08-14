@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>iMpos</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resource.qrc">
+    <normaloff>:/Image/logo.png</normaloff>:/Image/logo.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

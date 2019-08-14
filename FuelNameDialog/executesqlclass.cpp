@@ -59,7 +59,6 @@ void ExecuteSqlClass::executeSQL()
             return;
         }
     }
-
     m_currStatus.currentStatus=FINISHED;
     emit signalSendStatus(m_currStatus);
     emit finisExecute();
